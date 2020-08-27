@@ -1,0 +1,520 @@
+<!-- TODO 缺少一个</p> -->
+
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+    <link rel="stylesheet" href="../assets/css/main.css" />
+    <noscript><link rel="stylesheet" href="../assets/css/noscript.css" /></noscript>
+<title>二、HTML和CSS</title></head>
+<body class="is-preload">
+    <div id="wrapper">
+        <header id="header">
+						<h1>二、HTML和CSS</h1>
+            <p>问题来源：<a href='https://juejin.im/post/6844903830887366670' target='_blank' class='url'>https://juejin.im/post/6844903830887366670</a></p>
+					</header>
+      <div id="main">
+          <section class="main">
+            <h3>HTML</h3>
+            <ul>
+              <li>1.从规范的角度理解<code>HTML</code>，从分类和语义的角度使用标签</li>
+        <li>2.常用页面标签的默认样式、自带属性、不同浏览器的差异、处理浏览器兼容问题的方式</li>
+        <li>3.元信息类标签(<code>head</code>、<code>title</code>、<code>meta</code>)的使用目的和配置方法</li>
+        <li>4.<code>HTML5</code>离线缓存原理</li>
+        <li>5.可以使用<code>Canvas API</code>、<code>SVG</code>等绘制高性能的动画</li>
+      </ul>
+        <h3>CSS</h3>
+        <ul>
+        <li>1.<code>CSS</code>盒模型，在不同浏览器的差异
+      </li>
+        <li>2.<code>CSS</code>所有选择器及其优先级、使用场景，哪些可以继承，
+      </li>
+        <li><a href='https://developer.mozilla.org/zh-CN/docs/Web/CSS/At-rule'>如何运用<code>at</code>规则</a>
+        <details>
+          <summary>展开</summary>
+        <ul>
+        <li><a href='https://developer.mozilla.org/zh-CN/docs/Web/CSS/@charset'><code>@charset</code></a>, 定义样式表使用的字符集.
+      </li>
+        <li><a href='https://developer.mozilla.org/zh-CN/docs/Web/CSS/@import'><code>@import</code></a>, 告诉 CSS 引擎引入一个外部样式表.
+      </li>
+        <li><a href='https://developer.mozilla.org/zh-CN/docs/Web/CSS/@namespace'><code>@namespace</code></a>, 告诉 CSS 引擎必须考虑XML命名空间。
+      </li>
+        <li>嵌套@规则, 是嵌套语句的子集,不仅可以作为样式表里的一个语句，也可以用在条件规则组里：
+        <ul>
+        <li><a href='https://developer.mozilla.org/zh-CN/docs/Web/CSS/@media'><code>@media</code></a>, 如果满足媒介查询的条件则条件规则组里的规则生效。</li>
+        <li><a href='https://developer.mozilla.org/zh-CN/docs/Web/CSS/@page'><code>@page</code></a>, 描述打印文档时布局的变化.</li>
+        <li><a href='https://developer.mozilla.org/zh-CN/docs/Web/CSS/@font-face'><code>@font-face</code></a>, 描述将下载的外部的字体。 </li>
+        <li><a href='https://developer.mozilla.org/zh-CN/docs/Web/CSS/@keyframes'><code>@keyframes</code></a>, 描述 CSS 动画的中间步骤 . </li>
+        <li><a href='https://developer.mozilla.org/zh-CN/docs/Web/CSS/@supports'><code>@supports</code></a>, 如果满足给定条件则条件规则组里的规则生效。 </li>
+        <li><a href='https://developer.mozilla.org/zh-CN/docs/Web/CSS/@document'><code>@document</code></a>, 如果文档样式表满足给定条件则条件规则组里的规则生效。</li>
+      </ul>
+      </li>
+      </ul>
+      </details>
+      </li>
+        <li>3.<code>CSS</code>伪类和伪元素有哪些，它们的区别和实际应用
+          <details>
+              <summary>展开</summary>   
+              <ul>
+        <li>双冒号(<code>::</code>)与单冒号(<code>:</code>)只是CSS3与CSS2.1的不同。
+        <ul>
+        <li><strong>css3中规定伪类一个冒号，伪元素两个冒号</strong></li>
+      </ul>
+      </li>
+      </ul>
+        <span class="image main">
+          <img src="/Users/mac/Desktop/日报/二、HTML和CSS.assets/image-20200824161137834.png" referrerpolicy="no-referrer" alt="image-20200824161137834">
+      </span>
+        <a href='https://www.jianshu.com/p/9086114e07d4'>常用伪类、伪元素的实际应用:</a>
+        <ul>
+        <li><p>伪类：</p>
+        <blockquote><ol start='' >
+        <li><p>
+          <code>:link</code>伪类表示链接的正常状态，选择那些尚未被点过的链接。建议在其他链接相关的伪类之前声明<code>:link</code>，它们的顺序为：<code>:link</code>、<code>:visited</code>、<code>:hover</code>、<code>:active</code>。
+        </p>
+      </li>
+        <li><p><code>focus</code>用于选择已经通过指针设备、触摸或键盘获得焦点的元素，在表单里使用得非常多。</p>
+      </li>
+        <li><p><code>:first-child</code>伪类选择父元素的第一个子元素。<code>:last-child</code>伪类选择父元素的最后一个子元素。</p>
+      </li>
+        <li><p><code>:first-of-type</code>伪类选择父元素容器内任意类型子元素的第一个元素。</p>
+      </li>
+        <li><p><code>:nth-child</code>伪类根据元素在标记中的次序选择相应的元素。</p>
+      </li>
+        <li><p><code>:checked</code>伪类选择被勾选或选中的单选按钮、多选按钮及列表选项。</p>
+      </li>
+        <li><p><code>:disabled</code>伪类选择禁用状态的表单元素。处于禁用状态的元素，不能被选中、勾选，不能获得焦点。</p>
+      </li>
+        <li><p><code>:in-range</code>伪类选择有范围且值在指定范围内的元素。(表单填写错误可以通过变色来提示)</p>
+        <p><code>:out-of-range</code>伪类选择有范围且值超出指定范围的元素。</p>
+        <pre><code class='language-javascript' lang='javascript'>      input[type=&#39;number&#39;]:in-range {
+                color: rgba(57, 189, 0, 1);
+                border: 3px solid white;
+              }
+              input[type=&#39;number&#39;]:out-of-range {
+                color: rgb(189, 0, 0);
+                border: 3px solid rgb(243, 14, 14);
+              }
+
+      </code></pre>
+      </li>
+        <li><p><code>:valid</code>伪类选择输入格式符合要求的表单元素。<code>:invalid</code>伪类选择输入格式不符合要求的表单元素。</p>
+      </li>
+        <li><p><code>:indeterminate</code>伪类选择单选按钮或复选框在页面加载时没有被勾选的。</p>
+      </li>
+        <li><p><code>:optional</code>伪类选择表单中非必填的输入字段。<code>:read-only</code>伪类选择用户不能编辑的元素。<code>:required</code>伪类选择有<code>required</code>属性的表单元素。</p>
+      </li>
+      </ol>
+      </blockquote>
+      </li>
+      </ul>
+        <p>
+          <span class="image main">   
+          <img  src="/Users/mac/Desktop/日报/二、HTML和CSS.assets/image-20200824161254864.png" referrerpolicy="no-referrer" alt="image-20200824161254864">
+      </span></p>
+        <blockquote><pre><code>1. `:before`伪元素与`:after`类似，都可以为其他HTML元素添加内容（文本或图形）
+        2. `::placeholder`伪元素选择表单元素中通过`placeholder`属性设置的占位文本。
+        3. `::backdrop`伪元素是在全屏元素后面生成的一个盒子，与`:fullscreen`伪类连用，修改全屏后元素的背景颜色。
+      </code></pre>
+      </blockquote>
+        <p><a href='[https://segmentfault.com/a/1190000000484493#:~:text=%E4%B8%A4%E8%80%85%E7%9A%84%E5%8C%BA%E5%88%AB%E5%B7%B2%E7%BB%8F,%E4%B8%BA%E4%BC%AA%E5%85%83%E7%B4%A0%E7%9A%84%E5%8E%9F%E5%9B%A0%E3%80%82](https://segmentfault.com/a/1190000000484493#:~:text=两者的区别已经,为伪元素的原因。)'>
+          伪类和伪元素的区别</a>：</p>
+        <p>伪类的效果可以通过添加一个实际的类来达到，而伪元素的效果则需要通过添加一个实际的元素才能达到，这也是为什么他们一个称为伪类，一个称为伪元素的原因。</p>
+      <!-- </li> -->
+      </details>
+
+        <li><p>4.<code>HTML</code>文档流的排版规则，<code>CSS</code>几种定位的规则、定位参照物、对文档流的影响，如何选择最好的定位方式，雪碧图实现原理</p>
+      </li>
+        <li><p>5.水平垂直居中的方案、可以实现<code>6</code>种以上并对比它们的优缺点</p>
+      </li>
+        <li><p>6.<code>BFC</code>实现原理，可以解决的问题，如何创建<code>BFC</code></p>
+        </li>
+        <li><p>7.可使用<code>CSS</code>函数复用代码，实现特殊效果</p>
+        </li>
+        <li><p>8.<code>PostCSS</code>、<code>Sass</code>、<code>Less</code>的异同，以及使用配置，至少掌握一种</p>
+        </li>
+        <li><p>9.<code>CSS</code>模块化方案、如何配置按需加载、如何防止<code>CSS</code>阻塞渲染</p>
+        </li>
+        <li><p>10.熟练使用<code>CSS</code>实现常见动画，如渐变、移动、旋转、缩放等等</p>
+          <ul>
+          <li><p><a href='https://www.w3schools.com/css/css3_animations.asp' target='_blank' class='url'>https://www.w3schools.com/css/css3_animations.asp</a></p>
+          <p>@keyframes 描述动画过程</p>
+          <pre><code class='language-html' lang='html'>&lt;style&gt; 
+          div {
+            width: 100px;
+            height: 100px;
+            background-color: red;
+            position: relative;
+            animation-name: example;
+            animation-duration: 4s;
+          }
+          @keyframes example {
+            0%   {background-color:red; left:0px; top:0px; }
+            25%  {background-color:yellow; left:200px; top:0px;}
+            50%  {background-color:blue; left:200px; top:200px;}
+            75%  {background-color:green; left:0px; top:200px;}
+            100% {background-color:red; left:0px; top:0px; }
+          }
+          &lt;/style&gt;
+
+        </code></pre>
+          <p>渐变 background-color</p>
+          <p>移动 left,top</p>
+          <p>旋转 transform: rotate(180deg)</p>
+          <p>缩放 width height</p>
+        </li>
+        </ul>
+      </li>
+      </ul>
+        <p>&nbsp;</p>
+        <ul>
+          <li><p>11.<code>CSS</code>浏览器兼容性写法，了解不同<code>API</code>在不同浏览器下的兼容性情况</p>
+        </li>
+          <li><p>12.掌握一套完整的响应式布局方案</p>
+          <p><a href='https://mp.weixin.qq.com/s/NgGd9zSm6NEaF5Jxp5WBKg '>H5必知必会之像素级还原设计稿</a></p>
+          <p><a href='https://www.cnblogs.com/coco1s/p/11463599.html'>前端基础知识概述 -- 移动端开发的屏幕、图像、字体与布局的兼容适配</a></p>
+          <p><strong>响应式</strong> Responsive Web Design（RWD）和<strong>自适应</strong> Adaptive Web Design（AWD）的区别：</p>
+          <p><span class="image main">   
+            <img  src="/Users/mac/Desktop/日报/二、HTML和CSS.assets/image-20200824174709148.png" referrerpolicy="no-referrer" alt="image-20200824174709148"></span></p>
+          <ul>
+          <li><p>RWD是AWD的子集，从定义上而言，RWD 是一套代码，适用于所有屏幕。而 AWD 则是多端多套代码。（不用太纠结定义）</p>
+        </li>
+        <li><p>设备独立像素：</p>
+          <p>以iPhone6为例<span class="image main">   
+            <img src="/Users/mac/Desktop/日报/二、HTML和CSS.assets/image-20200825091624434.png" referrerpolicy="no-referrer" alt="image-20200825091624434">  
+          </span>
+          </p>
+          <p><code>375*667</code>表示的是设备独立像素（DIP），也可以理解为 CSS 像素，也称为逻辑像素.</p>
+          <p>设备独立像素 = CSS 像素 = 逻辑像素</p>
+        </li>
+          <li><p>物理像素：分辨率 </p>
+          <p><span class="image main">  
+            <img  src="/Users/mac/Desktop/日报/二、HTML和CSS.assets/image-20200825091917076.png" referrerpolicy="no-referrer" alt="image-20200825091917076"></span> </p>
+          <p><code>1334*750</code>，是屏幕实际的物理像素</p>
+          <p>设备像素 = 物理像素</p>
+        </li>
+        <li><p>设备像素比 DPR（Device Pixel Ratio）：</p>
+          <p>DPR = 物理像素 / 设备独立像素</p>
+        </li>
+        <li><p>我们通常说的H5手机适配也就是指的这两个维度：</p>
+          <ol start='' >
+          <li>适配不同屏幕大小，也就是适配不同屏幕下的 CSS 像素</li>
+          <li>适配不同像素密度，也就是适配不同屏幕下 dpr 不一致导致的一些问题</li>
+        </ol>
+        <p>确保页面元素大小的与屏幕大小保持一定比例</p>
+      </li>
+        <li><p>使用百分比来保持比例不是很理想，但不同的元素参考值不同，并且不是所有属性都支持百分比</p>
+        </li>
+        <li><p>方案1: rem适配：根据网页的根元素 (HTML) 来设置字体大小 </p>
+          <ul>
+          <li>📒和em的区别在于em 是根据其父元素的字体大小来设置</li>
+          <li>lib-flexible: 根据 <code>document.documentElement.clientWidth</code> 动态修改 <code>&lt;html&gt;</code> 的 font-size ，页面其他元素使用 rem 作为长度单位进行布局，从而实现页面的等比缩放</li>
+          <li>flexible不是纯CSS方案，需要引入一定的JS代码</li>
+        </ul>
+      </li>
+        <li><p>方案2: vw适配：</p>
+          <p><code>vw</code>等于初始包含块（html元素）宽度的1%，也就是</p>
+          <ul>
+          <li><code>1vw</code> 等于 <code>window.innerWidth</code> 的数值的 1%</li>
+          <li><code>1vh</code> 等于<code>window.innerHeight</code> 的数值的 1%</li>
+        </ul>
+        <p>缺点在于</p>
+        <ol start='' >
+          <li><p>单位需要手动换算：可以使用自动转换插件 <a href='https://www.npmjs.com/package/postcss-px-to-viewport'>postcss-px-to-viewport</a></p>
+        </li>
+          <li><p>兼容性问题：已经覆盖绝大数设备，其余的可以进行降级处理</p>
+        </li>
+          <li><p>1px在高清屏幕下的显示问题（可能现在更新完没有这个问题了？主要看产品有多少人还在用老版本的手机）。</p>
+          <p>&nbsp;</p>
+        </li>
+        </ol>
+      </li>
+      </ul>
+      </li>
+      </ul>
+        <ul>
+          <li><p>CSS code style</p>
+          <p><a href='https://www.cnblogs.com/coco1s/p/7159192.html' target='_blank' class='url'>https://www.cnblogs.com/coco1s/p/7159192.html</a></p>
+          <p><strong>样式属性顺序</strong></p>
+          <p>单个样式规则下的属性在书写时，应按功能进行分组，并以 Positioning Model &gt; Box Model &gt; Typographic &gt; Visual 的顺序书写，提高代码的可读性。</p>
+          <ul>
+          <li>如果包含 content 属性，应放在最前面；</li>
+          <li>Positioning Model 布局方式、位置，相关属性包括：position / top / right / bottom / left / z-index / display / float / ...</li>
+          <li>Box Model 盒模型，相关属性包括：width / height / padding / margin / border / overflow / ...</li>
+          <li>Typographic 文本排版，相关属性包括：font / line-height / text-align / word-wrap / ...</li>
+          <li>Visual 视觉外观，相关属性包括：color / background / list-style / transform / animation / transition / ...</li>
+        </ul>
+      </li>
+      </ul>
+        <p>&nbsp;</p>
+        <h3>手写</h3>
+        <ul>
+          <li><p>1.手写图片瀑布流效果</p>
+          <p>	<a href='https://segmentfault.com/a/1190000012621936' target='_blank' class='url'>https://segmentfault.com/a/1190000012621936</a></p>
+        </li>
+          <li><p>2.使用<code>CSS</code>绘制几何图形（圆形、三角形、扇形、菱形等）</p>
+          <p><a href='https://chokcoco.github.io/magicCss/html/index.html'>	FunnyCss</a></p>
+        </li>
+          <li><p>3.使用纯<code>CSS</code>实现曲线运动（贝塞尔曲线）</p>
+        </li>
+          <li><p>4.实现常用布局（三栏、圣杯、双飞翼、吸顶），可是说出多种方式并理解其优缺点</p>
+        </li>
+        </ul>
+        <p>&nbsp;</p>
+
+        <hr>
+        <details>
+            <summary>浏览器的回流与重绘 (Reflow &amp; Repaint) </summary>
+          <blockquote><p><a href='https://juejin.im/post/6844903569087266823' target='_blank' class='url'>https://juejin.im/post/6844903569087266823</a></p>
+          <p><a href='https://github.com/Advanced-Frontend/Daily-Interview-Question/issues/24' target='_blank' class='url'>https://github.com/Advanced-Frontend/Daily-Interview-Question/issues/24</a> 困。</p>
+          <p>KEY：Render Tree，回流，重绘</p>
+        </blockquote>
+          <p><strong>浏览器渲染机制：</strong></p>
+          <blockquote><ul>
+          <li>浏览器采用流式布局模型（<code>Flow Based Layout</code>）</li>
+          <li>浏览器会把<code>HTML</code>解析成<code>DOM</code>，把<code>CSS</code>解析成<code>CSSOM</code>，<code>DOM</code>和<code>CSSOM</code>合并就产生了渲染树（<code>Render Tree</code>）。</li>
+          <li>有了<code>RenderTree</code>，我们就知道了所有节点的样式，然后计算他们在页面上的大小和位置，最后把节点绘制到页面上。</li>
+          <li>由于浏览器使用流式布局，对<code>Render Tree</code>的计算通常只需要遍历一次就可以完成，<strong>但<code>table</code>及其内部元素除外，他们可能需要多次计算，通常要花3倍于同等元素的时间，这也是为什么要避免使用<code>table</code>布局的原因之一</strong>。</li>
+        </ul>
+        </blockquote>
+          <p><strong>回流</strong>：当<code>Render Tree</code>中部分或全部元素的尺寸、结构、或某些属性发生改变时，浏览器重新渲染部分或全部文档的过程称为回流。改变了布局</p>
+          <p>重绘：当页面中元素样式的改变并不影响它在文档流中的位置时（例如：<code>color</code>、<code>background-color</code>、<code>visibility</code>等），浏览器会将新样式赋予给元素并重新绘制它，这个过程称为重绘。</p>
+          <p>回流代价更高。<strong>回流必将引起重绘，重绘不一定会引起回流。</strong></p>
+          <h4>如何避免</h4>
+          <p>CSS</p>
+          <ul>
+          <li>避免使用<code>table</code>布局。</li>
+          <li>尽可能在<code>DOM</code>树的最末端改变<code>class</code>。</li>
+          <li>避免设置多层内联样式。</li>
+          <li>将动画效果应用到<code>position</code>属性为<code>absolute</code>或<code>fixed</code>的元素上。</li>
+          <li>避免使用<code>CSS</code>表达式（例如：<code>calc()</code>）。</li>
+        </ul>
+          <p>JavaScript</p>
+          <ul>
+          <li>避免频繁操作样式，最好一次性重写<code>style</code>属性，或者将样式列表定义为<code>class</code>并一次性更改<code>class</code>属性。</li>
+          <li>避免频繁操作<code>DOM</code>，创建一个<code>documentFragment</code>，在它上面应用所有<code>DOM操作</code>，最后再把它添加到文档中。</li>
+          <li>也可以先为元素设置<code>display: none</code>，操作结束后再把它显示出来。因为在<code>display</code>属性为<code>none</code>的元素上进行的<code>DOM</code>操作不会引发回流和重绘。</li>
+          <li>避免频繁读取会引发回流/重绘的属性，如果确实需要多次使用，就用一个变量缓存起来。</li>
+          <li>对具有复杂动画的元素使用绝对定位，使它脱离文档流，否则会引起父元素及后续元素频繁回流。</li>
+        </ul>
+        </details>
+        <details>
+            <summary>实现水平居中垂直居中</summary>
+          <blockquote><p><a href='https://www.cnblogs.com/coco1s/p/10910588.html'>探秘 flex 上下文中神奇的自动 margin chokCoco</a></p>
+          <p><a href='https://juejin.im/post/6844903474879004680'>更多场景</a></p>
+          <p><a href='https://github.com/Advanced-Frontend/Daily-Interview-Question/issues/92'>div 水平垂直居中</a></p>
+        </blockquote>
+          <ul>
+          <li><p>水平居中：</p>
+          <ul>
+          <li>行内：<code>text-align:center;</code> (botton)</li>
+          <li>块级：<code>margin:0 auto;</code></li>
+          <li>flex ：</li>
+        </ul>
+          <pre><code>.parent {
+              display: flex;
+              justify-content: center;
+          }
+
+        </code></pre>
+          <p>&nbsp;</p>
+        </li>
+          <li><p>垂直居中：</p>
+          <ul>
+          <li><p>单行文本： line-height等于父元素；</p>
+          <p>&nbsp;</p>
+        </li>
+          <li><p>flex:</p>
+          <pre><code>.parent {
+            display: flex;
+            align-items: center; //垂直方向居中
+            justify-content: center; // 水平方向居中
+          }
+
+        </code></pre>
+        </li>
+        </ul>
+          <p>&nbsp;</p>
+          <ul>
+          <li><p>或者最简单flex：</p>
+          <pre><code>.container {
+              display: flex;
+          }
+
+          .item {
+              margin: auto;
+          }
+
+        </code></pre>
+          <p>⚠️</p>
+          <p>自动 margin 还是很实用的，可以使用的场景也很多，有一些上面提到的点还需要再强调下：</p>
+          <blockquote><ul>
+          <li>块格式化上下文中<code>margin-top</code> 和 <code>margin-bottom</code> 的值如果是 auto，则他们的值都为 0</li>
+          <li>flex 格式化上下文中，在通过 <code>justify-content</code> 和 <code>align-self</code> 进行对齐之前，任何正处于空闲的空间都会分配到该方向的自动 margin 中去</li>
+          <li>单个方向上的自动 margin 也非常有用，它的计算值为该方向上的剩余空间</li>
+          <li>使用了自动 margin 的 flex 子项目，它们父元素设置的 <code>justify-content</code> 以及它们本身的 <code>align-self</code> 将不再生效</li>
+        </ul>
+          <pre><code class='language-html' lang='html'>&lt;div class=&quot;parent&quot;&gt;
+            &lt;div class=&quot;child&quot;&gt;&lt;/div&gt;
+          &lt;/div&gt;
+
+        </code></pre>
+          <pre><code class='language-html' lang='html'>div.parent {
+              display: flex;
+              justify-content: center;
+              align-items: center;
+          }
+
+        </code></pre>
+          <pre><code class='language-html' lang='html'>div.parent {
+              position: relative; 
+          }
+          div.child {
+              position: absolute; 
+              top: 50%;
+              left: 50%;
+              transform: translate(-50%, -50%);  
+          }
+          /* 或者 */
+          div.child {
+              width: 50px;
+              height: 10px;
+              position: absolute;
+              top: 50%;
+              left: 50%;
+              margin-left: -25px;
+              margin-top: -5px;
+          }
+          /* 或 */
+          div.child {
+              width: 50px;
+              height: 10px;
+              position: absolute;
+              left: 0;
+              top: 0;
+              right: 0;
+              bottom: 0;
+              margin: auto;
+          }
+
+        </code></pre>
+          <pre><code class='language-html' lang='html'>div.parent {
+              display: grid;
+          }
+          div.child {
+              justify-self: center;
+              align-self: center;
+          }
+
+        </code></pre>
+          <pre><code class='language-html' lang='html'>div.parent {
+              font-size: 0;
+              text-align: center;
+              &amp;::before {
+                  content: &quot;&quot;;
+                  display: inline-block;
+                  width: 0;
+                  height: 100%;
+                  vertical-align: middle;
+              }
+          }
+          div.child{
+            display: inline-block;
+              vertical-align: middle;
+          }
+          </code></pre>
+            <p>当屏幕size减小时，调整样式</p>
+            <pre><code class='language-html' lang='html'>      @media only screen and (max-width: 500px) {
+                      body {
+                        background-color: lightblue;
+                      }
+                    }
+
+            </code></pre>
+            <pre><code class='language-html' lang='html'>div.parent{
+                display:flex;
+              }
+              div.child{
+                margin:auto;
+              }
+
+            </code></pre>
+          </details>
+          
+            <details>
+                <summary>flex布局</summary>
+              <p><a href='https://zhuanlan.zhihu.com/p/25303493' target='_blank' class='url'>https://zhuanlan.zhihu.com/p/25303493</a></p>
+              <p>布局借鉴：</p>
+              <p> <a href='https://codepen.io/LandonSchropp/pen/KpzzGo' target='_blank' class='url'>https://codepen.io/LandonSchropp/pen/KpzzGo</a> </p>
+              <p><a href='http://www.ruanyifeng.com/blog/2015/07/flex-examples.htm' target='_blank' class='url'>http://www.ruanyifeng.com/blog/2015/07/flex-examples.htm</a></p>
+              <p><a href='https://magic-akari.github.io/solved-by-flexbox/' target='_blank' class='url'>https://magic-akari.github.io/solved-by-flexbox/</a></p>
+              <p>&nbsp;</p>
+              <p>块元素div用display: flex</p>
+              <p>行内元素可以用display:inline-flex</p>
+              <p>⚠️设置了flex布局后，子元素的 float、clear、vertical-align 的属性将会失效。</p>
+              <p>flex实际上就是三行语句的缩写：</p>
+              <ul>
+              <li><code>flex-grow</code></li>
+              <li><code>flex-shrink</code></li>
+              <li><code>flex-basis</code></li>
+            </ul>
+              <p>常用方法：</p>
+              <ul>
+              <li><code>flex: initial</code> - Equivalent to <code>flex: 0 1 auto</code>.</li>
+              <li><code>flex: auto</code> - Equivalent to <code>flex: 1 1 auto</code>.</li>
+              <li><code>flex: none</code> - Equivalent to <code>flex: 0 0 auto</code>.</li>
+              <li><code>flex: &lt;positive-number&gt;</code> - Equivalent to <code>flex: &lt;positive-number&gt; 1 0</code>.</li>
+            </ul>
+            </details>
+            <details>
+                <summary>前端选择器</summary>
+              <p><a href='https://juejin.im/post/5eaf64276fb9a0435749c23a#comment'>前端布局必须了解的css选择器</a></p>
+              <p>只有当内容为空时才会显示的css</p>
+              <pre><code class='language-html' lang='html'>  &lt;div class=&quot;test&quot;&gt;
+                  &lt;div class=&quot;emptyone&quot;&gt;&lt;/div&gt;
+                  &lt;div class=&quot;emptyone&quot;&gt;noempot&lt;/div&gt;
+                &lt;/div&gt;
+
+                .test {
+                  .emptyone:empty {
+                    height:10px;
+                    background: aqua; 
+                  }
+                }
+
+            </code></pre>
+              <p>效果如图：
+                <span class="image main">
+                   <img  src="/Users/mac/Desktop/日报/二、HTML和CSS.assets/image-20200630144829287.png" referrerpolicy="no-referrer" alt="image-20200630144829287">
+              </span>
+            </p>
+            </details>
+          </section>
+          </div> 
+          
+                  <!-- Footer -->
+                  <footer id="footer">
+                        <section>
+                          <h2>Contact Info</h2>
+                          <dl class="alt">
+                            <dt>Wechat</dt>
+                            <dd>微信</dd>
+                            <dt>Email</dt>
+                            <dd><a href="#">wangqianqian997@gmail.com</a></dd>
+                        </dl>
+                          <ul class="icons">
+                            <li>
+                              <a href="https://github.com/Wqq1997" class="icon fa-github alt"
+                                ><span class="label">GitHub</span></a
+                              >
+                          </li>
+                        </ul>
+                      </section>
+                        <p class="copyright">
+                          &copy; Untitled. Design: <a href="https://html5up.net">HTML5 UP</a>.
+                      </p>
+                    </footer>
+          </div>
+          </body>
+            </html>

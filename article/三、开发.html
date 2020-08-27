@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, user-scalable=no"
+    />
+    <link rel="stylesheet" href="../assets/css/main.css" />
+    <noscript
+      ><link rel="stylesheet" href="../assets/css/noscript.css"
+    /></noscript>
+    <title>三、开发</title>
+  </head>
+  <body class="is-preload">
+    <div id="wrapper">
+      <header id="header">
+        <h1>三、开发</h1>
+        <p>
+          2020-8-26
+        </p>
+      </header>
+      <div id="main">
+        <section class="main">
+          <!-- 更新WEBPACK -->
+          <details>
+            <summary>Webpack</summary>
+
+            <h3>webpack 热更新原理,如何做到在不刷新浏览器的前提下更新页面</h3>
+            <ol start="">
+              <li>当修改了一个或多个文件；</li>
+              <li>文件系统接收更改并通知webpack；</li>
+              <li>
+                webpack重新编译构建一个或多个模块，并通知HMR服务器进行更新；
+              </li>
+              <li>
+                HMR Server 使用webSocket通知HMR runtime
+                需要更新，HMR运行时通过HTTP请求更新jsonp；
+              </li>
+              <li>
+                HMR运行时替换更新中的模块，如果确定这些模块无法更新，则触发整个页面刷新。
+              </li>
+            </ol>
+          </details>
+
+          <!-- 更新ejs -->
+          <details>
+            <summary>ejs</summary>
+
+            <p><a href="https://ejs.bootcss.com/">官方手册</a></p>
+            <h3>标签含义</h3>
+            <ul>
+              <li>
+                <code>&lt;%</code> &#39;脚本&#39; 标签，用于流程控制，无输出。
+              </li>
+              <li><code>&lt;%_</code> 删除其前面的空格符</li>
+              <li>
+                <code>&lt;%=</code> 输出数据到模板（输出是转义 HTML 标签）
+              </li>
+              <li>
+                <code>&lt;%-</code> 输出非转义的数据到模板（保持原有的数据）
+              </li>
+              <li><code>&lt;%#</code> 注释标签，不执行、不输出内容</li>
+              <li><code>&lt;%%</code> 输出字符串 &#39;&lt;%&#39;</li>
+              <li><code>%&gt;</code> 一般结束标签</li>
+              <li><code>-%&gt;</code> 删除紧随其后的换行符</li>
+              <li><code>_%&gt;</code> 将结束标签后面的空格符删除</li>
+            </ul>
+            <p>&nbsp;</p>
+          </details>
+
+          <!-- 更新axios -->
+          <details>
+            <summary>axios</summary>
+            <p>
+              <a href="https://juejin.im/post/5b55c118f265da0f6f1aa354"
+                >vue中Axios的封装和API接口的管理</a
+              >
+            </p>
+            <ul>
+              <li>
+                <p>安装</p>
+                <pre><code>npm install axios
+</code></pre>
+              </li>
+            </ul>
+            <p>&nbsp;</p>
+            <p>/projectName/.env (.env.dev)</p>
+            <pre><code>VUE_APP_API_URL=https://baidu.cn
+VUE_APP_OUTPUT_DIR=dist/dev
+VUE_APP_PUBLIC_PATH=./
+VUE_APP_USE_CDN=true
+VUE_APP_DEBUG=true
+</code></pre>
+            <p>配置文件中添加URL和资源文件位置</p>
+            <p>&nbsp;</p>
+            <pre><code class='language-javascript' lang='javascript'>import axios from &#39;axios&#39;
+import { cloneDeep } from &#39;lodash&#39;
+
+const { VUE_APP_API_URL, VUE_APP_TRANS_API_URL, VUE_APP_TRANS_TOKEN } = process.env
+//在文件最外层添加环境配置文件
+const CancelToken = axios.CancelToken
+//本文件中没用
+const pkg = require(&#39;../../package.json&#39;)
+
+// 获取设备号
+const getDeviceId = () =&gt; {
+  return sessionStorage.deviceId
+}
+
+// 获取TOKEN
+const getToken = () =&gt; {
+  return sessionStorage.token
+}
+// 设置TOKEN
+const setToken = ({ token }) =&gt; {
+  return sessionStorage.token = token
+}
+
+// 设置TOKEN
+const setDeviceId = ({ deviceId }) =&gt; {
+  return sessionStorage.deviceId = deviceId
+}
+
+/**
+ * @description sleep
+ * @param {Number} ts (ms)
+ */
+/* const sleep = (ts) =&gt; {
+  return new Promise(resolve =&gt; {
+    setTimeout(() =&gt; {
+      resolve(true)
+    }, ts)
+  })
+} */
+//似乎也没用
+
+const isIos = () =&gt; {
+  let u = navigator.userAgent
+  let isIOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/)
+  return isIOS
+}
+const config = {
+  baseURL: VUE_APP_API_URL,
+  headers: {
+    &#39;X-App-Name&#39;: pkg.name,
+    &#39;X-App-Version&#39;: pkg.version
+  }
+}
+// 本地测试
+// config.baseURL = &#39;http://127.0.0.1:5002&#39;
+
+const instance = axios.create(config)
+
+instance.interceptors.request.use(function (config) {
+  // Do something before request is sent
+  config.headers[&#39;DEVICEID&#39;] = getDeviceId()
+  config.headers[&#39;TOKEN&#39;] = getToken()
+  return config
+}, function (error) {
+  // Do something with request error
+  console.log(&#39;==&gt;请求超时!&#39;)
+  return Promise.resolve(error)
+})
+instance.interceptors.response.use(function (response = {}) {
+  // Do something with response data
+  let { config, data } = response || { config: {} }
+  /* console.log(response) */
+  console.log(&#39;==&gt;request:&#39;, config.url, config.method, cloneDeep(data))
+  if (config.method === &#39;post&#39; &amp;&amp; response.data.errcode === -1) {
+    toast({
+      icon: &#39;fail&#39;,
+      message: &quot;申请失败&quot;,
+      layer:true,
+    })
+  }
+  if (config.method === &#39;post&#39; &amp;&amp; response.data.errcode === 0) {
+    toast({
+      icon: &#39;checked&#39;,
+      message: &quot;申请成功&quot;,
+      layer:true,
+    })
+  }
+  return response
+}, function (error) {
+  // Do something with response error
+  console.log(error)
+  if (error) {
+    if (error.response) {
+      const status = error.response.status
+      if (status === 504 || status === 404) {
+        console.log(`==&gt;response status: ${status}`)
+      } else if (status === 403) {
+        console.log(&#39;==&gt;权限不足,请联系管理员!&#39;)
+      } else {
+        console.log(&#39;==&gt;未知错误&#39;, status)
+      }
+    } else if (error.message.includes(&#39;timeout&#39;)) {
+      console.log(&#39;==&gt;返回超时&#39;)
+    } else {
+      console.log(&#39;==&gt;未知错误&#39;, error.message)
+    }
+  }
+  return Promise.resolve(error)
+})
+instance.defaults.timeout = 30 * 1000
+
+const Invoice = {}
+Invoice.invoices = async (pageNo) =&gt; {
+  let res = await instance.get(`api/user/invoices`, {
+    params: {
+      page: pageNo,
+      limit: 10
+    }
+  })
+  return res &amp;&amp; res.data
+}
+
+Invoice.orderHistory = async (pageNo) =&gt; {
+  let res = await instance.get(`api/user/applied/invoices`, {
+    params: {
+      page: pageNo,
+      limit: 10
+    }
+  })
+  return res &amp;&amp; res.data
+}
+
+Invoice.applyOrder = async ({ nos, invoiceInfo, isDefault }) =&gt; {
+  let data = { nos, invoiceInfo , isDefault}
+  let res = await instance.post(`api/user/apply/invoices`, data )
+  //console.log(&quot;~~~~~apply post:&quot;);
+  return res &amp;&amp; res.data
+}
+
+const User = {}
+// 根据token获取用户信息
+User.ensuretoken = async () =&gt; {
+  let res = await instance.get(`api/auth/ensuretoken`)
+  return res &amp;&amp; res.data
+}
+
+export default {
+  http: instance,
+  api: {
+    Invoice,
+    User
+  },
+  utils: {
+    getDeviceId,
+    getToken,
+    setToken,
+    setDeviceId,
+    isIos
+  }
+}
+</code></pre>
+          </details>
+
+          <!-- 更新微信小程序 -->
+          <details>
+            <summary>微信小程序</summary>
+            <p>AppID(小程序ID) wx109e204924c04a11</p>
+            <p><strong>微信小程序开发与普通网页开发的区别：</strong></p>
+            <p>
+              小程序的主要开发语言是 JavaScript
+              ，小程序的开发同普通的网页开发相比有很大的相似性。对于前端开发者而言，从网页开发迁移到小程序的开发成本并不高，但是二者还是有些许区别的。
+            </p>
+            <p>
+              <strong>网页开发渲染线程和脚本线程是互斥的</strong
+              >，这也是为什么<strong>长时间的脚本运行可能会导致页面失去响应</strong>，而在小程序中，二者是分开的，分别运行在不同的线程中。网页开发者可以使用到各种浏览器暴露出来的
+              DOM API，进行 DOM
+              选中和操作。而如上文所述，小程序的逻辑层和渲染层是分开的，逻辑层运行在
+              JSCore 中，并没有一个完整浏览器对象，因而缺少相关的DOM API和BOM
+              API。这一区别导致了前端开发非常熟悉的一些库，例如 jQuery、 Zepto
+              等，在小程序中是无法运行的。同时 JSCore 的环境同 NodeJS
+              环境也是不尽相同，所以一些 NPM 的包在小程序中也是无法运行的。
+            </p>
+            <p>
+              网页开发者需要面对的环境是各式各样的浏览器，PC 端需要面对
+              IE、Chrome、QQ浏览器等，在移动端需要面对Safari、Chrome以及
+              iOS、Android 系统中的各式 WebView 。而<strong
+                >小程序开发过程中需要面对的是两大操作系统 iOS 和 Android
+                的微信客户端，以及用于辅助开发的小程序开发者工具</strong
+              >，小程序中三大运行环境也是有所区别的，如表1-1所示。
+            </p>
+            <p>表1-1 小程序的运行环境</p>
+            <figure>
+              <table>
+                <thead>
+                  <tr>
+                    <th style="text-align:left;"><strong>运行环境</strong></th>
+                    <th style="text-align:left;"><strong>逻辑层</strong></th>
+                    <th style="text-align:left;"><strong>渲染层</strong></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td style="text-align:left;">iOS</td>
+                    <td style="text-align:left;">JavaScriptCore</td>
+                    <td style="text-align:left;">WKWebView</td>
+                  </tr>
+                  <tr>
+                    <td style="text-align:left;">安卓</td>
+                    <td style="text-align:left;">V8</td>
+                    <td style="text-align:left;">chromium定制内核</td>
+                  </tr>
+                  <tr>
+                    <td style="text-align:left;">小程序开发者工具</td>
+                    <td style="text-align:left;">NWJS</td>
+                    <td style="text-align:left;">Chrome WebView</td>
+                  </tr>
+                </tbody>
+              </table>
+            </figure>
+            <p>
+              网页开发者在开发网页的时候，只需要使用到浏览器，并且搭配上一些辅助工具或者编辑器即可。小程序的开发则有所不同，需要经过申请小程序帐号、安装小程序开发者工具、配置项目等等过程方可完成。
+            </p>
+            <p>&nbsp;</p>
+            <p>
+              <a href="https://www.jianshu.com/p/aaef5ceb3936"
+                >微信小程序开发 从0开始</a
+              >
+            </p>
+            <h4>小程序标题：app.json</h4>
+            <pre><code class='language-json' lang='json'>  &quot;window&quot;:{
+    &quot;backgroundTextStyle&quot;:&quot;light&quot;,
+    &quot;navigationBarBackgroundColor&quot;: &quot;#fff&quot;,
+    &quot;navigationBarTitleText&quot;: &quot;这是一个标题&quot;,
+    &quot;navigationBarTextStyle&quot;:&quot;black&quot;
+  },
+</code></pre>
+            <h4>页面引入url：app.json</h4>
+            <pre><code class='language-json' lang='json'>  &quot;pages&quot;:[
+    &quot;pages/index/index&quot;,
+    &quot;pages/logs/logs&quot;
+  ],
+</code></pre>
+          </details>
+
+          <!-- 更新Nginx -->
+          <details>
+            <summary>Nginx</summary>
+            <p>
+              <a
+                href="https://juejin.im/post/6844903793918738440#comment"
+                target="_blank"
+                class="url"
+                >https://juejin.im/post/6844903793918738440#comment</a
+              >
+            </p>
+            <blockquote>
+              <p>
+                “Nginx是一款轻量级的HTTP服务器，采用事件驱动的异步非阻塞处理方式框架，这让其具有极好的IO性能，时常用于服务端的反向代理和负载均衡。”
+              </p>
+            </blockquote>
+            <p>&nbsp;</p>
+            <p>正向代理与反向代理</p>
+            <p>
+              <img
+                src="/Users/mac/Desktop/日报/三、开发.assets/image-20200826135955619.png"
+                referrerpolicy="no-referrer"
+                alt="image-20200826135955619"
+              />
+            </p>
+            <p>Proxy和client或server的结合。</p>
+            <p>反向代理可以 1. 保证服务器安全 2. 均匀分配客户端请求</p>
+            <p>&nbsp;</p>
+            <p><strong>nginx在应用程序中的作用</strong></p>
+            <ul>
+              <li>
+                <ol start="">
+                  <li>
+                    <p>解决跨域</p>
+                    <p><strong>跨域</strong></p>
+                    <p>
+                      同源策略限制了从同一个源加载的文档或脚本如何与来自另一个源的资源进行交互。这是一个用于隔离潜在恶意文件的<strong>重要安全机制</strong>。通常<strong>不允许不同源间的读操作</strong>。
+                    </p>
+                    <blockquote>
+                      <p>
+                        同源：如果两个页面的协议，端口（如果有指定）和域名都相同，则两个页面具有相同的源。
+                      </p>
+                    </blockquote>
+                    <p>那么 nginx如何解决跨域的问题？</p>
+                    <p>
+                      在前后端的域名不同时，使用反向代理配置，将server和proxy包装为一个server，域名与前端域名相同，绕开同源的限制。
+                    </p>
+                  </li>
+                </ol>
+              </li>
+              <li>
+                <ol start="2">
+                  <li>请求过滤</li>
+                </ol>
+              </li>
+              <li>
+                <ol start="3">
+                  <li>
+                    <p>配置gzip</p>
+                    <p>
+                      为了减少传输所需的流量，但是需要server和client都支持gzip（通过请求头中的<code
+                        >Accept-Encoding</code
+                      >
+                      来标识），通过配置nginx，传输文本文件，可以边压缩边相映，提高TTFB（<code
+                        >Time To First Byte</code
+                      >，首字节时间，WEB 性能优化重要指标）
+                    </p>
+                  </li>
+                </ol>
+              </li>
+              <li>
+                <ol start="4">
+                  <li>
+                    <p>负载均衡</p>
+                    <p>合理分配资源，提高效率</p>
+                  </li>
+                </ol>
+              </li>
+              <li>
+                <ol start="5">
+                  <li>静态资源服务器</li>
+                </ol>
+              </li>
+              <li>
+                <ol start="6">
+                  <li>
+                    <p>配置自动切换PC以及H5站点</p>
+                    <p>&nbsp;</p>
+                  </li>
+                </ol>
+              </li>
+            </ul>
+          </details>
+
+          <p>&nbsp;</p>
+        </section>
+      </div>
+
+      <!-- Footer -->
+      <footer id="footer">
+        <section>
+          <h2>Contact Info</h2>
+          <dl class="alt">
+            <dt>Wechat</dt>
+            <dd>微信</dd>
+            <dt>Email</dt>
+            <dd><a href="#">wangqianqian997@gmail.com</a></dd>
+          </dl>
+          <ul class="icons">
+            <li>
+              <a href="https://github.com/Wqq1997" class="icon fa-github alt"
+                ><span class="label">GitHub</span></a
+              >
+            </li>
+          </ul>
+        </section>
+        <p class="copyright">
+          &copy; Untitled. Design: <a href="https://html5up.net">HTML5 UP</a>.
+        </p>
+      </footer>
+    </div>
+  </body>
+</html>

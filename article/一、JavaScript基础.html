@@ -1,0 +1,1104 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+  <link rel="stylesheet" href="../assets/css/main.css" />
+  <noscript><link rel="stylesheet" href="../assets/css/noscript.css" /></noscript>
+<title>一、JavaScript基础</title></head>
+<body class="is-preload">
+    <div id="wrapper">
+        <header id="header">
+						<h1>一、JavaScript基础</h1>
+            <p>问题来源：<a href='https://juejin.im/post/6844903830887366670' target='_blank' class='url'>https://juejin.im/post/6844903830887366670</a></p>
+					</header>
+      <div id="main">
+  <section class="main">
+    <details>
+      <summary>变量和类型</summary>
+
+<ul>
+<li><p>1.<code>JavaScript</code>规定了几种语言类型</p>
+<ul>
+<li><p>7 种原始类型：所有类型的值本身不可变</p>
+<ul>
+<li><a href='https://developer.mozilla.org/zh-CN/docs/Glossary/Boolean'>Boolean</a></li>
+<li><a href='https://developer.mozilla.org/zh-CN/docs/Glossary/Null'>Null</a></li>
+<li><a href='https://developer.mozilla.org/zh-CN/docs/Glossary/undefined'>Undefined</a></li>
+<li><a href='https://developer.mozilla.org/zh-CN/docs/Glossary/Number'>Number</a></li>
+<li><a href='https://developer.mozilla.org/zh-CN/docs/Glossary/BigInt'>BigInt</a></li>
+<li><a href='https://developer.mozilla.org/zh-CN/docs/Glossary/字符串'>String</a></li>
+<li><a href='https://developer.mozilla.org/zh-CN/docs/Glossary/Symbol'>Symbol</a> </li>
+<li>⚠️ symbol和bigint可能在某些环境下不能使用</li>
+
+</ul>
+</li>
+<li><p>和复杂类型</p>
+<ul>
+<li><a href='https://developer.mozilla.org/zh-CN/docs/Glossary/Object'>Object</a>：在 Javascript 里，对象可以被看作是一组属性的集合。</li>
+<li>array</li>
+<li>function</li>
+
+</ul>
+</li>
+
+</ul>
+</li>
+
+</ul>
+<p>&nbsp;</p>
+<ul>
+<li><p>2.0 解释下typeof null 为 &#39;object&#39;的bug</p>
+<ul>
+<li>JS中数据在底层以二进制存储，null的所有存储值都是0，在判断object时，只要前三位为0，就会被判定为object，所以<code>typeof null === &#39;object&#39;</code></li>
+
+</ul>
+</li>
+<li><p>2.1 <code>String(1)</code>和<code>new String(1)</code>的区别</p>
+<ul>
+<li><p>string、number、boolean为基本包装类型，如果是自动创建的基本包装类型对象（除非是new出来的），对象只存在代码的执行瞬间。</p>
+<p><img src="/Users/mac/Library/Application Support/typora-user-images/image-20200819101312002.png" referrerpolicy="no-referrer" alt="image-20200819101312002"></p>
+</li>
+
+</ul>
+</li>
+<li><p>2.<code>JavaScript</code>对象的底层数据结构是什么 </p>
+<ul>
+<li><p><a href='https://www.jianshu.com/p/7d3ab9a22b11'>参考</a></p>
+</li>
+<li><p>JS使用堆(Heap) 和 栈(Stack)作为底层数据结构。</p>
+<ul>
+<li><strong>栈</strong>中存储JS基本类型数据（Undefined、NULL、不是new出来的bool、number、boolean）。每种类型占用内存空间大小确定，并由系统分配释放，更容易管理内存空间</li>
+<li><strong>堆</strong>中存储引用类型数据（对象、数组、函数，通过拷贝和new出来的玩意儿）。但是引用类型数据的地址指针存储于栈中，然后听过指针访问堆中的具体数据</li>
+
+</ul>
+</li>
+
+</ul>
+<p>&nbsp;</p>
+</li>
+<li><p>3.<code>Symbol</code>类型在实际开发中的应用、可手动实现一个简单的<code>Symbol</code></p>
+<ul>
+<li><p><code>Symbol</code>是ES6中引入的新原始数据类型，表示独一无二的值。</p>
+</li>
+<li><p><a href='https://www.jianshu.com/p/5ac75a16e442'>实际应用</a>：</p>
+<ul>
+<li>作为属性名使用，不用给变量赋一个字符串的值，只需要给他一个Symbol()就可以将其与其他变量区分。</li>
+<li>单例模式：单例模式是一种十分常用但却相对而言比较简单的设计模式。它是指在一个类只能有一个实例，即使多次实例化该类，也只返回第一次实例化后的实例对象。单例模式不仅能减少不必要的内存开销, 并且在减少全局的函数和变量冲突也具有重要的意义。（TODO：目前没有涉及到，到时候再看看）</li>
+
+</ul>
+</li>
+<li><p><a href='https://github.com/mqyqingfeng/Blog/issues/87'>手动实现一个简单<code>Symbol</code></a></p>
+<ul>
+<li>（TODO：看不太懂）</li>
+
+</ul>
+</li>
+
+</ul>
+</li>
+
+</ul>
+<p>&nbsp;</p>
+<ul>
+<li><p>4.<code>JavaScript</code>中的变量在内存中的具体存储形式</p>
+<ul>
+<li><p>js 在底层存储变量的时候，会在变量的机器码的低位1-3位存储其类型信息👉</p>
+<ul>
+<li>000：对象</li>
+<li>010：浮点数</li>
+<li>100：字符串</li>
+<li>110：布尔</li>
+<li>1：整数</li>
+
+</ul>
+<p>but, 对于 <code>undefined</code> 和 <code>null</code> 来说，这两个值的信息存储是有点特殊的。</p>
+<p><code>null</code>：所有机器码均为0</p>
+<p><code>undefined</code>：用 −2^30 整数来表示</p>
+</li>
+
+</ul>
+</li>
+
+</ul>
+<p>&nbsp;</p>
+<ul>
+<li><p>5.基本类型对应的内置对象，以及他们之间的装箱拆箱操作</p>
+<ul>
+<li><p><a href='https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects'>MDN</a> 不是很懂。</p>
+</li>
+<li><p><a href='https://www.jianshu.com/p/d66cf6f711a1'>参考代码</a></p>
+</li>
+<li><p>装箱：</p>
+<ul>
+<li><strong>隐式</strong>：每当读取一个基本类型的值时，后台会创建一个该基本类型所对应的对象。在这个基本类型上调用方法，其实是在这个基本类型对象上调用方法。这个基本类型的对象是临时的，它只存在于方法调用那一行代码执行的瞬间，执行方法后立刻被销毁。</li>
+<li><strong>显式</strong>： 通过内置对象 Boolean、Object、String 等可以对基本类型进行显示装箱（new）。</li>
+
+</ul>
+</li>
+<li><p>拆箱：</p>
+<ul>
+<li>把对象转变为基本类型的值。</li>
+<li>使用 ToPrimitive 函数，遵循“先拆箱，后转换”规则。默认情况下，ToPrimitive 先检查对象是否有 valueOf 方法，如果有则再检查 valueOf 方法是否有基本类型的返回值。</li>
+
+</ul>
+</li>
+<li><p>TODO:应用场景</p>
+</li>
+
+</ul>
+</li>
+
+</ul>
+<p>&nbsp;</p>
+<ul>
+<li><p>6.理解值类型和引用类型</p>
+<ul>
+<li>基本类型数据（Undefined、NULL、不是new出来的bool、number、boolean）</li>
+<li>类型数据（对象、数组、函数，通过拷贝和new出来的玩意儿）</li>
+
+</ul>
+</li>
+
+</ul>
+<p>&nbsp;</p>
+<ul>
+<li><p>7.<code>null</code>和<code>undefined</code>的区别</p>
+<pre><code>undefined  == null         //返回true
+</code></pre>
+<p>没有定义 或者 var完它又不给它赋值，js将会将其设为undefined ；</p>
+<p>但是必须var一个值，赋值等于null，它才是null。</p>
+<p>typeof undefined 返回undefined ；typeof null返回object ；</p>
+<pre><code>undefined  === null  //false
+</code></pre>
+</li>
+
+</ul>
+<p>&nbsp;</p>
+<ul>
+<li><p>8.至少可以说出三种判断<code>JavaScript</code>数据类型的方式，以及他们的优缺点，如何准确的判断数组类型</p>
+<ul>
+<li><p><a href='https://www.cnblogs.com/onepixel/p/5126046.html'>参考</a>	<a href='https://juejin.im/post/6844903613584654344'>参考2</a></p>
+</li>
+<li><p>鉴于 ECMAScript 是松散类型的，因此需要有一种手段来检测给定变量的数据类型。</p>
+</li>
+<li><p>(1) <strong>typeof</strong>：简单。对于一般情况是没有问题的，但对于某些情况会有些迷惑：</p>
+<ul>
+<li>基本类型，除了null外，都可以正确返回；（<code>typeof null === &#39;object&#39;</code> ，或者可以用 <code>!null&amp;&amp;typeof null</code> ）</li>
+<li>引用类型，除了function外，均返回了原形链最顶端的object，理论上没有错，但是不是想要的结果。</li>
+<li>所以如果对象的具体类型没有要求，用typeof是可以的</li>
+
+</ul>
+</li>
+<li><p>(2) <strong>instanceof</strong>：（<a href='https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/instanceof'>MDN instanceof</a>）</p>
+<ul>
+<li>主要的作用就是判断一个实例是否属于某种类型，也可以判断一个实例是否是其父类型或者祖先类型的实例。</li>
+<li>能检测引用类型，不能检测基础类型</li>
+<li>对于数组来说，ES6提供<code>Array.isArray()</code>方法，用以确认对象本身是否为Array类型。</li>
+
+</ul>
+</li>
+<li><p>(3) <strong>constructor：</strong></p>
+<ul>
+<li><p>基本都可以检测</p>
+</li>
+<li><p>但无法判断null和undefined（不存在constructor）</p>
+</li>
+<li><p>性能最好</p>
+</li>
+<li><p>函数的constructor不稳定，重写prototype后，原有的constructor引用会丢失，然后变成了默认的Object类型</p>
+<ul>
+<li>所以在开发时，重写对象原型后，需要给constructor赋值，保证实例类型不被篡改。</li>
+
+</ul>
+</li>
+
+</ul>
+</li>
+<li><p>(4) <strong>toString：</strong></p>
+<ul>
+<li>Object对象：直接调用<code>Object.prototype.toString.call(&lt;something&gt;)</code></li>
+<li>其他对象：使用call/apply。</li>
+<li>写法较繁琐，常用于判断浏览器内置对象</li>
+
+</ul>
+</li>
+
+</ul>
+<p>简单来说，我们使用 <strong><code>typeof</code></strong> 来判断<strong>基本数据类型</strong>是 ok 的，不过需要注意当用 <code>typeof</code> 来判断 <code>null</code> 类型时的问题，如果想要判断一个对象的具体类型可以考虑用 <code>instanceof</code>，但是 <code>instanceof</code> 也可能判断不准确，比如一个数组，他可以被 <code>instanceof</code> 判断为 Object（可以用ES6提供的<code>Array.isArray()</code>方法）。所以我们要想比较准确的判断<strong>对象</strong>实例的类型时，可以采取 <strong><code>Object.prototype.toString.call</code></strong> 方法。</p>
+<p><a href='https://github.com/Advanced-Frontend/Daily-Interview-Question/issues/23'>请分别介绍它们之间的区别和优劣Object.prototype.toString.call() 、 instanceof 以及 Array.isArray()</a></p>
+<p>&nbsp;</p>
+</li>
+<li><p>9.可能发生隐式类型转换的场景以及转换原则，应如何避免或巧妙应用</p>
+<ul>
+<li><p><a href='https://juejin.im/post/6844903557968166926#comment'>参考</a></p>
+</li>
+<li><p>出现隐式类型转换最多的运算符：+  和 == ( JS糟粕，用 === 严格判断就没事 )</p>
+</li>
+<li><p>三种转换：<code>ToPrimitive()，ToNumber()，ToString()</code></p>
+</li>
+<li><p>+</p>
+<p><img src="/Users/mac/Desktop/日报/一、JavaScript基础.assets/image-20200819134431988.png" referrerpolicy="no-referrer" alt="image-20200819134431988"></p>
+</li>
+<li><p>==</p>
+</li>
+<li><p>先判断valueOf，再判断toString</p>
+</li>
+<li><p>详细见参考链接，理解较容易</p>
+</li>
+
+</ul>
+</li>
+
+</ul>
+<p>&nbsp;</p>
+<ul>
+<li><p>10.0.出现小数精度丢失的原因</p>
+<ul>
+<li><a href='https://juejin.im/post/6844903620140335112'>参考</a></li>
+<li>由于双精度浮点数的设计缺点导致（无法精确保存非2^-n的数，会进行 Round to nearest, ties to even）</li>
+
+</ul>
+</li>
+<li><p>10.1 避免精度丢失的方法</p>
+<ul>
+<li>类库：math.js, decimal.js</li>
+<li>原生方法：toFixed()，在不同的浏览器结果不同，麻烦</li>
+<li>ES6：Number.EPSILON，为浮点数计算设置一个误差范围，如果误差能够小于Number.EPSILON，我们就可以认为结果是可靠的。</li>
+
+</ul>
+</li>
+<li><p>10.2 <code>JavaScript</code>可以存储的最大数字、最大安全数字</p>
+<ul>
+<li><a href='https://segmentfault.com/a/1190000002608050'>参考</a></li>
+<li>Number.MAX_VALUE = &#39;Infinity&#39; （1.8*10^308）</li>
+<li>Number.MAX_SAFE_INTEGER = 2^53 - 1：由IEEE 754决定（Float的位数有限，如果超出这个数字，则不保证运算结果正确</li>
+
+</ul>
+</li>
+<li><p>10.2 <code>JavaScript</code>处理大数字的方法</p>
+<ul>
+<li>第三方库：bignum，bigint</li>
+
+</ul>
+<p>&nbsp;</p>
+<p> </p>
+</li>
+
+</ul>
+</details>
+
+<details>
+    <summary>原型和原型链</summary>
+<h3>原型和原型链</h3>
+<ul>
+<li><p>1.理解原型设计模式以及<code>JavaScript</code>中的原型规则</p>
+<ul>
+<li><p><a href='https://www.jianshu.com/p/dee9f8b14771'>参考</a></p>
+</li>
+<li><p><strong>TODO：看到三 看不懂了 <a href='https://www.jianshu.com/p/a4e1e7b6f4f8' target='_blank' class='url'>https://www.jianshu.com/p/a4e1e7b6f4f8</a> = =</strong></p>
+</li>
+<li><p><a href='https://juejin.im/post/6844903613584654344'>这个写的也不错</a></p>
+<p><img src="/Users/mac/Desktop/日报/一、JavaScript基础.assets/1.png" referrerpolicy="no-referrer" alt="1"></p>
+</li>
+<li><p>每个 JavaScript 对象均有一个<strong>隐式</strong>的 <code>__proto__</code> 原型属性，而<strong>显式</strong>的原型属性是 <code>prototype</code>，只有 <code>Object.prototype.__proto__</code> 属性在未修改的情况下为 null 值。</p>
+</li>
+<li><pre><code class='language-javascript' lang='javascript'>function Foo() {
+}
+
+Object instanceof Object // true
+Function instanceof Function // true
+Function instanceof Object // true
+Foo instanceof Foo // false
+Foo instanceof Object // true
+Foo instanceof Function // true
+
+</code>
+</pre>
+</li>
+<li><p>搞的一批。</p>
+</li>
+
+</ul>
+</li>
+
+</ul>
+<p>&nbsp;</p>
+<ul>
+<li><p>2.<code>instanceof</code>的底层实现原理，手动实现一个<code>instanceof</code></p>
+<ul>
+<li><p><a href='https://www.cnblogs.com/yalong/p/10534858.html'>参考1</a> 	<a href='https://juejin.im/post/6844903613584654344'>参考2</a></p>
+</li>
+<li><p><code>instanceof</code> 主要的实现原理就是只要右边变量的 <code>prototype</code> 在左边变量的原型链上即可。</p>
+</li>
+<li><pre><code class='language-javascript' lang='javascript'>// 对于用 typeof 就可以判断出来数据类型的这里就不处理，
+// 只处理 typeof 结果为 object ，并且不是 null 的(不存在的变量)。
+function instance_of(L, R) { //L 表示左表达式，R 表示右表达式
+  var O = R.prototype;
+  L = L.__proto__;
+  while (true) {
+    if (L === null) // 找到头了也没有，返回false
+      return false;
+    if (O === L) // 这里重点：当 O 严格等于 L 时，返回 true
+      return true;
+    L = L.__proto__;
+  }
+}
+</code></pre>
+</li>
+
+</ul>
+</li>
+
+</ul>
+<p>&nbsp;</p>
+<ul>
+<li><p>4.实现继承的几种方式以及他们的优缺点</p>
+<ul>
+<li><a href='https://juejin.im/post/6844903839175278600#heading-0'>《javascript高级程序设计》</a></li>
+<li>原型链：每个孩子之间的属性会共享</li>
+
+</ul>
+<ol start='2' >
+<li>借用构造函数：函数不能复用，也无法获取父亲的方法</li>
+<li><strong>组合继承</strong> ：1 2 的结合，最常用；无论什么情况下，都会调用两次超类型构造函数：一次是在创建子类型原型的时候，另一次是在子类型构造函数内部</li>
+<li>（TODO 枯燥，一会儿再看）</li>
+<li>原型式继承</li>
+<li>寄生式继承</li>
+<li>寄生组合式继承</li>
+
+</ol>
+</li>
+
+</ul>
+<p>&nbsp;</p>
+<ul>
+<li><p>5.至少说出一种开源项目(如<code>Node</code>)中应用原型继承的案例</p>
+<ul>
+<li><p><a href='https://itbilu.com/nodejs/core/NkPA_3brl.html'>nodejs</a></p>
+<ul>
+<li><pre><code class='language-javascript' lang='javascript'>exports.inherits = function(ctor, superCtor) {
+  // 一些参数的合法性判断，略……
+
+  ctor.super_ = superCtor;
+  ctor.prototype = Object.create(superCtor.prototype, {
+    constructor: {
+      value: ctor,
+      enumerable: false,
+      writable: true,
+      configurable: true
+    }
+  });
+};
+</code></pre>
+<p><code>util.inherits()</code>方法内部除调用<code>Object.create()</code>方法实现原型继承外，还将父类的构造函数写入到了子类的<code>ctor.super_</code>属性中，在使用中可以通过该属性方便调用到父类的构造函数。</p>
+</li>
+
+</ul>
+</li>
+
+</ul>
+</li>
+
+</ul>
+<p>&nbsp;</p>
+<ul>
+<li><p>6.可以描述<code>new</code>一个对象的详细过程，手动实现一个<code>new</code>操作符</p>
+<ul>
+<li><p><a href='https://juejin.im/post/6844903630605123598'>参考</a></p>
+</li>
+<li><p>官方版本：</p>
+<p>1）创建 ECMAScript 原生对象 <code>obj</code>；
+ 2）给 <code>obj</code> 设置原生对象的内部属性；（和原型属性不同，内部属性表示为 <code>[[PropertyName]]</code>，两个方括号包裹属性名，并且属性名大写，比如常见 <code>[[Prototype]]</code>、<code>[[Constructor]]</code>）
+ 3）设置 <code>obj</code> 的内部属性 <code>[[Class]]</code> 为 <code>Object</code>；
+ 4）设置 <code>obj</code> 的内部属性 <code>[[Extensible]]</code> 为 <code>true</code>；
+ 5）将 <code>proto</code> 的值设置为 <code>F</code> 的 <code>prototype</code> 属性值；
+ 6）如果 <code>proto</code> 是对象类型，则设置 <code>obj</code> 的内部属性 <code>[[Prototype]]</code> 值为 <code>proto</code>；（<strong>进行原型链关联，实现继承的关键</strong>）
+ 7）如果 <code>proto</code> 是不对象类型，则设置 <code>obj</code> 的内部属性 <code>[[Prototype]]</code> 值为内建构造函数 <strong>Object</strong> 的 <code>prototype</code> 值；（<strong>函数 <code>prototype</code> 属性可以被改写</strong>，如果改成非对象类型，<code>obj</code> 的 <code>[[Prototype]]</code> 就指向 Object 的原型对象）</p>
+<ul>
+<li>如果是非对象类型就和内建对象原型关联，即Object.prototype (反正就是不能是个非对象值，你写了也白写....？)</li>
+
+</ul>
+<p>8）调用函数 <code>F</code>，将其返回值赋给 <code>result</code>；其中，<code>F</code> 执行时的实参为传递给 <code>[[Construct]]</code>（即 <code>F</code> 本身） 的参数，<code>F</code> 内部 <code>this</code> 指向 <code>obj</code>；</p>
+<p> 9）如果 <code>result</code> 是 <code>Object</code> 类型，返回 <code>result</code>；</p>
+<p>10）如果 <code>F</code> 返回的不是对象类型（第 9 步不成立），则返回创建的对象 <code>obj</code>。</p>
+<p>&nbsp;</p>
+</li>
+<li><p>简洁版本：</p>
+<p>若执行 <code>new Foo()</code>，过程如下：</p>
+<p>1）创建新对象 <code>o</code>；
+ 2）给新对象的内部属性赋值，关键是给<code>[[Prototype]]</code>属性赋值，构造原型链（如果构造函数的原型是 Object 类型，则指向构造函数的原型；不然指向 Object 对象的原型）；
+ 3）执行函数 <code>Foo</code>，执行过程中内部 <code>this</code> 指向新创建的对象 <code>o</code>；
+ 4）如果 <code>Foo</code> 内部显式返回对象类型数据，则，返回该数据，执行结束；不然返回新创建的对象 <code>o</code>。</p>
+</li>
+
+</ul>
+</li>
+
+</ul>
+<p>&nbsp;</p>
+<ul>
+<li><p>7.理解<code>es6 class</code>构造以及继承的底层实现原理</p>
+<ul>
+<li><p>为了解决ES5中的原型链继承造成的麻烦，ES6种的class实际上是语法糖</p>
+<ul>
+<li><a href='https://segmentfault.com/a/1190000014798678'>参考</a>		<a href='https://www.jianshu.com/p/8a1a60709e7e'>参考2</a></li>
+
+</ul>
+</li>
+<li><p>ES6底层是通过构造函数去创建的class</p>
+<p>1.调用_classCallCheck方法判断当前函数调用前是否有new关键字。</p>
+<p>（通过ES6创建的类，不允许直接调用 Parent()）</p>
+<p>2.将class内部的变量和函数赋给this。</p>
+<p>3.执行constuctor内部的逻辑。</p>
+<p>4.return this (构造函数默认在最后我们做了)。</p>
+<p><img src="/Users/mac/Desktop/日报/一、JavaScript基础.assets/image-20200820111517302.png" referrerpolicy="no-referrer" alt="image-20200820111517302"></p>
+</li>
+<li><p><a href='https://medium.com/ecmascript-2015/es6-classes-and-inheritance-607804080906'>ES5和ES6的继承</a>：</p>
+<p><img src="/Users/mac/Desktop/日报/一、JavaScript基础.assets/image-20200820130856243.png" referrerpolicy="no-referrer" alt="image-20200820130856243"></p>
+<ul>
+<li>es6实际上是为我们提供了一个“组合寄生继承”的简单写法。</li>
+<li>增加了_inherits方法</li>
+<li>继承的核心思想：<img src="/Users/mac/Desktop/日报/一、JavaScript基础.assets/image-20200820112404029.png" referrerpolicy="no-referrer" alt="image-20200820112404029"></li>
+<li>原型链：</li>
+
+</ul>
+<p><img src="/Users/mac/Desktop/日报/一、JavaScript基础.assets/image-20200820112423414.png" referrerpolicy="no-referrer" alt="image-20200820112423414"></p>
+<p>&nbsp;</p>
+</li>
+
+</ul>
+</li>
+
+</ul>
+</details>
+
+<details>
+    <summary>作用域和闭包</summary>
+<p>作用域是指程序源代码中定义变量的区域。</p>
+<p>作用域规定了如何查找变量，也就是确定当前执行代码对变量的访问权限。</p>
+<p>JavaScript 采用<strong>词法作用域(lexical scoping)</strong>，也就是静态作用域，<strong>函数的作用域在函数定义的时候就决定了</strong>。</p>
+<ul>
+<li><p>1.理解词法作用域和动态作用域</p>
+<ul>
+<li><p><a href='https://github.com/mqyqingfeng/Blog/issues/3'>参考</a></p>
+</li>
+<li><p>静态作用域/动态作用域</p>
+<pre><code class='language-javascript' lang='javascript'>var value = 1;
+
+function foo() {
+    console.log(value);
+}
+
+function bar() {
+    var value = 2;
+    foo();
+}
+
+bar(); 
+// 由于是静态作用域，所以bar()会从foo()定义的时候找value，往上找，找到了1，所以返回1.
+// 如果是动态作用域的话就会返回2（会先在foo里找，没有找到，就到bar里找）*** bash
+</code></pre>
+<p>&nbsp;</p>
+</li>
+
+</ul>
+</li>
+<li><p>2.理解<code>JavaScript</code>的作用域和作用域链</p>
+<ul>
+<li><p><a href='https://github.com/mqyqingfeng/Blog/issues/6'>JavaScript深入之作用域链</a></p>
+</li>
+<li><p>作用域：<strong>词法作用域(lexical scoping)</strong>在函数定义的时候决定</p>
+</li>
+<li><p>作用域链：在<a href='https://github.com/mqyqingfeng/Blog/issues/5'>《JavaScript深入之变量对象》</a>中讲到，当查找变量的时候，会先从当前上下文的变量对象中查找，如果没有找到，就会从父级(词法层面上的父级)执行上下文的变量对象中查找，一直找到全局上下文的变量对象，也就是全局对象。这样由<strong>多个执行上下文的变量对象构成的链表</strong>就叫做作用域链。</p>
+<p>(TODO: read again)</p>
+</li>
+
+</ul>
+</li>
+
+</ul>
+<p>&nbsp;</p>
+<ul>
+<li><p>3.理解<code>JavaScript</code>的执行上下文栈，可以应用堆栈信息快速定位问题</p>
+<ul>
+<li><p><a href='https://github.com/mqyqingfeng/Blog/issues/4'>JavaScript深入之执行上下文栈</a></p>
+</li>
+<li><p>JS中在进行变量提升，函数提升的时候是如何划分的呢？=&gt; JavaScript 引擎创建了执行上下文栈（Execution context stack，ECS）来管理执行上下文</p>
+<ul>
+<li>首先，压入globalContext至上下文栈，只有当整个应用程序结束的时候，再清空栈</li>
+
+</ul>
+</li>
+
+</ul>
+</li>
+
+</ul>
+<p>&nbsp;</p>
+<ul>
+<li><p>4.<code>this</code>的原理以及几种不同使用场景的取值</p>
+<ul>
+<li><a href='https://github.com/mqyqingfeng/Blog/issues/7'>ref</a></li>
+<li>?啊？</li>
+
+</ul>
+</li>
+
+</ul>
+<p>&nbsp;</p>
+<ul>
+<li><p>5.闭包的实现原理和作用，可以列举几个开发中闭包的实际应用</p>
+<ul>
+<li><a href='https://github.com/mqyqingfeng/Blog/issues/9'>ref</a></li>
+<li>原理：使用自由变量（既不是函数参数也不是函数的局部变量的变量）的函数</li>
+<li>作用：上下文执行栈，在作用域链中可以通过闭包保存值，不被销毁（TODO：need perf）</li>
+
+</ul>
+</li>
+
+</ul>
+<p>&nbsp;</p>
+<ul>
+<li><p>6.理解堆栈溢出和内存泄漏的原理，如何防止</p>
+<ul>
+<li><p><a href='https://juejin.im/post/6844903520588529678#heading-4'>ref</a></p>
+</li>
+<li><p>内存泄漏：有回收不了的内存</p>
+</li>
+<li><p>堆栈溢出：无限递归导致栈溢出</p>
+</li>
+<li><p>如何防止内存泄漏：</p>
+<ul>
+<li>注意全局变量</li>
+<li>注意变量的引用，如果你删除了变量A，但是A仍然在其他地方被引用，那就无法被回收</li>
+
+</ul>
+</li>
+<li><p>如何防止堆栈溢出：</p>
+<ul>
+<li>防止无限循环</li>
+<li>当需要分配一个大内存的时候，使用闭包：使用闭包，执行匿名函数的参数和局部变量都会被回收</li>
+
+</ul>
+</li>
+
+</ul>
+</li>
+
+</ul>
+<p>&nbsp;</p>
+<ul>
+<li><p>7.如何处理循环的异步操作</p>
+<ul>
+<li><p><a href='https://juejin.im/post/6844903599969927181'>ref</a></p>
+</li>
+<li><p>如何确保循环的所有异步操作完成之后执行某个其他操作</p>
+<ul>
+<li>设一个flag</li>
+<li>promise then</li>
+
+</ul>
+</li>
+<li><p>循环中的下一步操作依赖于前一步的操作，如何解决</p>
+<ul>
+<li>使用递归</li>
+<li><strong>使用async 和 await</strong></li>
+
+</ul>
+</li>
+
+</ul>
+</li>
+
+</ul>
+<p>&nbsp;</p>
+<ul>
+<li><p>8.理解模块化解决的实际问题，可列举几个模块化方案并理解其中原理</p>
+<ul>
+<li>(TODO)</li>
+
+</ul>
+</li>
+
+</ul>
+<p>&nbsp;</p>
+</details>
+
+<details>
+    <summary>执行机制</summary>
+<ul>
+<li><p>1.为何<code>try</code>里面放<code>return</code>，<code>finally</code>还会执行，理解其内部机制</p>
+<ul>
+<li><p><a href='https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/try...catch'>语法 MDN</a> </p>
+</li>
+<li><p><a href='[https://jdsheng.cn/2019/03/25/JavaScript%E6%89%A7%E8%A1%8C%EF%BC%88%E5%9B%9B%EF%BC%89%EF%BC%9Atry%E9%87%8C%E9%9D%A2%E6%94%BEreturn%EF%BC%8Cfinally%E8%BF%98%E4%BC%9A%E6%89%A7%E8%A1%8C%E5%90%97%EF%BC%9F/](https://jdsheng.cn/2019/03/25/JavaScript执行（四）：try里面放return，finally还会执行吗？/)'>try里面放return，finally还会执行吗？</a></p>
+</li>
+<li><p>JS语句执行机制的基础类型：<strong>Completion</strong></p>
+</li>
+<li><p>try的行为的基础是<strong>Completion Record</strong>（用于描述异常、跳出等语句执行过程）</p>
+<blockquote><p>Completion Record 表示一个语句执行完成之后的结果，他有三个字段：</p>
+<ul>
+<li>[[type]] 表示完成的类型，有 break continue return throw 和 normal 几种类型；</li>
+<li>[[value]] 表示语句的返回值，如果语句没有，则是 empty；</li>
+<li>[[target]] 表示语句的目标，通常是一个 JavaScript 标签（标签在后文会有介绍）。</li>
+
+</ul>
+</blockquote>
+</li>
+<li><p>语句块是拿大括号括起来的一组语句，它是一种语句的复合结构，可以嵌套。语句块内部的语句的 Completion Record 的 [[type]] 如果不为 normal，会打断语句块后续的语句执行。return 语句可能产生 return 或者 throw 类型的 Completion Record。假如我们在 block 中插入了一条 return 语句，产生了一个非 normal 记录，那么整个 block 会成为非 normal。这个结构就保证了非 normal 的完成类型可以穿透复杂的语句嵌套结构，产生控制效果。</p>
+</li>
+<li><p>控制型语句带有 if、switch 关键字，它们会对不同类型的 Completion Record 产生反应。我们需要控制语句跟 break 、continue 、return 、throw四种类型与控制语句两两组合产生的效果。</p>
+</li>
+<li><p>因为 finally 中的内容必须保证执行，所以 try/catch 执行完毕，即使得到的结果是非 normal 型的完成记录，也必须要执行 finally。</p>
+<p>而当 finally 执行也得到了非 normal 记录，则会使 finally 中的记录作为整个 try 结构的结果。</p>
+</li>
+
+</ul>
+</li>
+
+</ul>
+<p>&nbsp;</p>
+<ul>
+<li><p>2.<code>JavaScript</code>如何实现异步编程，可以详细描述<code>EventLoop</code>机制</p>
+<ul>
+<li><a href='https://juejin.im/post/6844903764202094606#heading-1'>ref</a></li>
+<li>TODO 我吐了。等过一阵看吧。</li>
+
+</ul>
+</li>
+
+</ul>
+<p>&nbsp;</p>
+<ul>
+<li><p>3.宏任务和微任务分别有哪些</p>
+<ul>
+<li>宏任务（macrotask）：script（整体代码）、setTimeout/setInterval、I/O、UI rendering等</li>
+<li>微任务（microtask）：Promise、MutationObserver等</li>
+
+</ul>
+<p>浏览器和Node 事件循环的区别：</p>
+<ul>
+<li>其中一个主要的区别在于浏览器的event loop 和nodejs的event loop 在处理异步事件的顺序是不同的,nodejs中有micro event;其中Promise属于micro event 该异步事件的处理顺序就和浏览器不同.nodejs V11.0以上 这两者之间的顺序就相同了，都是每执行一个宏任务就执行完微任务队列。</li>
+
+</ul>
+</li>
+<li><p>4.可以快速分析一个复杂的异步嵌套逻辑，并掌握分析方法</p>
+</li>
+<li><p>5.使用<code>Promise</code>实现串行</p>
+</li>
+<li><p>6.<code>Node</code>与浏览器<code>EventLoop</code>的差异</p>
+</li>
+<li><p>7.如何在保证页面运行流畅的情况下处理海量数据</p>
+</li>
+
+</ul>
+</details>
+
+<details>
+  <summary>语法和API</summary>
+<ul>
+<li>1.理解<code>ECMAScript</code>和<code>JavaScript</code>的关系</li>
+<li>2.熟练运用<code>es5</code>、<code>es6</code>提供的语法规范，</li>
+<li>3.熟练掌握<code>JavaScript</code>提供的全局对象（例如<code>Date</code>、<code>Math</code>）、全局函数（例如<code>decodeURI</code>、<code>isNaN</code>）、全局属性（例如<code>Infinity</code>、<code>undefined</code>）</li>
+<li>4.熟练应用<code>map</code>、<code>reduce</code>、<code>filter</code> 等高阶函数解决问题</li>
+<li>5.<code>setInterval</code>需要注意的点，使用<code>settimeout</code>实现<code>setInterval</code></li>
+<li>6.<code>JavaScript</code>提供的正则表达式<code>API</code>、可以使用正则表达式（邮箱校验、<code>URL</code>解析、去重等）解决常见问题</li>
+<li>7.<code>JavaScript</code>异常处理的方式，统一的异常处理方案</li>
+
+</ul>
+</details>
+
+<hr>
+<details>
+  <summary>写js的注意事项</summary>
+<p><a href='https://github.com/airbnb/javascript'>airbnb/javascript</a></p>
+<ol start='' >
+<li><p>对于简单类型来说，修改值是直接修改的，对于复杂类型来说，你修改对象的引用的值的同时也修改了他本身</p>
+</li>
+<li><p>不要用var，用 const(不修改) 和 let(需修改) </p>
+</li>
+<li><p>不要用new来创建对象，用{} </p>
+<blockquote><p>如果你在使用constructor函数的时候忘记了new，那么this指针就会和全局对象绑定，而不是在你的新对象上增加 <a href='[https://stackoverflow.com/questions/383402/is-javascripts-new-keyword-considered-harmful#:~:text=Functions%20designed%20to%20be%20instantiated,a%20local%20object%20as%20intended.](https://stackoverflow.com/questions/383402/is-javascripts-new-keyword-considered-harmful#:~:text=Functions designed to be instantiated,a local object as intended.)'>Is JavaScript&#39;s “new” keyword considered harmful?</a></p>
+<p>当然如果你记得的话就还好，如果忘了就比较麻烦，此处有对Crockford吐槽。（hhh）</p>
+</blockquote>
+</li>
+<li><p>创建array时，使用<code>const item = []</code> 而不是new。</p>
+</li>
+<li><p>添加新array属性时，使用<code>push</code></p>
+</li>
+<li><p>如何拷贝array(此处为浅拷贝：修改原始数据，拷贝的对象也会变)</p>
+<pre><code class='language-javascript' lang='javascript'>const itemCopy = [...items]
+</code></pre>
+<p>&nbsp;</p>
+</li>
+<li><p>在使用匿名函数的时候，最好用箭头函数</p>
+<blockquote><p>why？箭头函数创建了在 <code>this</code> 上下文下运行的函数，是更精准的表达</p>
+<p>并且更简洁</p>
+</blockquote>
+<p>&nbsp;</p>
+</li>
+
+</ol>
+<p><a href='https://github.com/ryanmcdermott/clean-code-javascript'>ryanmcdermott/clean-code-javascript</a></p>
+</details>
+<hr>
+<details>
+  <summary>一些Q&A</summary>
+  <details>
+    <summary>JS数组去重</summary>
+<p><a href='https://github.com/mqyqingfeng/Blog/issues/27'>JavaScript专题之数组去重</a></p>
+<p>1.0 初始版本</p>
+<pre><code class='language-javascript' lang='javascript'>// 两层循环，第一层循环原始数组中的元素，
+// 新建一个返回数组，比对原始数组中的数据是否存在于返回数组中
+// 如果对比到两个值相等，则退出第一层循环，如果直到最后也没有break出，说明该值唯一，push入返回数组
+
+var array = [1, 2, 3, &#39;1&#39;, &#39;2&#39;];
+
+function unique() {
+  var res = [];
+  var arrayLen = array.length;
+  for (var i = 0; i &lt; arrayLen; i++) {
+    let resLen = res.length;
+    for (var j = 0; j &lt; resLen; j++) {
+      if (array[i] === res[j]) {
+        break
+      }
+    }
+    if (j === resLen) {
+      res.push(array[i])
+    }
+  }
+  return res;
+}
+
+console.log(unique(array));
+</code></pre>
+<p>1.1 使用JS函数 <code>indexOf()</code> 简化内部循环</p>
+<blockquote><p>indexOf() method returns the first index at which a given element can be found in the array, or -1 if it is not present. 即 搜索所有元素，如果找不到，返回-1</p>
+</blockquote>
+<pre><code class='language-javascript' lang='javascript'>var array = [1, 2, 3, &#39;1&#39;, &#39;2&#39;];
+
+function unique() {
+  var res = [];
+  var arrayLen = array.length;
+  for (var i = 0; i &lt; arrayLen; i++) {
+    var current = array[i];
+    if (res.indexOf(current) === -1) {
+      res.push(current)
+    }
+  }
+  return res;
+}
+
+console.log(unique(array));
+</code></pre>
+<p>2.0 排序后去重</p>
+<p>使用sort函数排序</p>
+<blockquote><p>The sort() method sorts the elements of an array <em><a href='https://en.wikipedia.org/wiki/In-place_algorithm'>in place</a></em> and returns the sorted array. The default sort order is ascending, built upon converting the elements into strings, then comparing their sequences of UTF-16 code units values.</p>
+<p>The time and space complexity of the sort cannot be guaranteed as it depends on the implementation.</p>
+<p>即 不能通过sort来管理一个数组，因为它是利用UTF-16的顺序来排序的</p>
+</blockquote>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<h3>改造下面的代码，使之输出0 - 9，写出你能想到的所有解法。</h3>
+<pre><code class='language-javascript' lang='javascript'>for (var i = 0; i&lt; 10; i++){
+	setTimeout(() =&gt; {
+		console.log(i);
+    }, 1000)
+}
+</code></pre>
+<ul>
+<li><p>方法一</p>
+<p>原理：</p>
+<ul>
+<li>利用 <code>setTimeout</code> 函数的第三个参数，会作为回调函数的第一个参数传入</li>
+<li>利用 <code>bind</code> 函数部分执行的特性</li>
+
+</ul>
+<p>代码 1：</p>
+<pre><code class='language-javascript' lang='javascript'>for (var i = 0; i &lt; 10; i++) {
+  setTimeout(i =&gt; {
+    console.log(i);
+  }, 1000, i)
+}
+</code></pre>
+<p>代码 2：</p>
+<pre><code class='language-javascript' lang='javascript'>for (var i = 0; i &lt; 10; i++) {
+  setTimeout(console.log, 1000, i)
+}
+</code></pre>
+<p>代码 3：</p>
+<pre><code class='language-javascript' lang='javascript'>for (var i = 0; i &lt; 10; i++) {
+  setTimeout(console.log.bind(Object.create(null), i), 1000)
+}
+</code></pre>
+</li>
+<li><p>方法二</p>
+<p>原理：</p>
+<ul>
+<li>利用 <code>let</code> 变量的特性 — 在每一次 <code>for</code> 循环的过程中，<code>let</code> 声明的变量会在当前的块级作用域里面（<code>for</code> 循环的 body 体，也即两个花括号之间的内容区域）创建一个文法环境（Lexical Environment），该环境里面包括了当前 <code>for</code> 循环过程中的 <code>i</code>，<a href='https://javascript.info/closure#for-while'>具体链接</a></li>
+
+</ul>
+<p>代码 1：</p>
+<pre><code class='language-javascript' lang='javascript'>for (let i = 0; i &lt; 10; i++) {
+  setTimeout(() =&gt; {
+    console.log(i);
+  }, 1000)
+}
+</code></pre>
+<p>等价于</p>
+<pre><code class='language-javascript' lang='javascript'>for (let i = 0; i &lt; 10; i++) {
+  let _i = i;// const _i = i;
+  setTimeout(() =&gt; {
+    console.log(_i);
+  }, 1000)
+}
+</code></pre>
+</li>
+<li><p>方法三</p>
+<p>原理：</p>
+<ul>
+<li><p>利用函数自执行的方式，把当前 for 循环过程中的 i 传递进去，构建出块级作用域。</p>
+<p>IIFE 其实并不属于闭包的范畴</p>
+<p>参考链接如下：</p>
+<ul>
+<li><a href='https://stackoverflow.com/questions/41228824/difference-between-closures-and-iifes-in-javascript'>difference-between-closures-and-iifes-in-javascript</a></li>
+<li><a href='https://bit.ly/2NXNT56'>IIFE 是闭包?</a></li>
+
+</ul>
+</li>
+<li><p>利用其它方式构建出块级作用域</p>
+</li>
+
+</ul>
+<p>代码 1：</p>
+<pre><code class='language-javascript' lang='javascript'>for (var i = 0; i &lt; 10; i++) {
+  (i =&gt; {
+    setTimeout(() =&gt; {
+      console.log(i);
+    }, 1000)
+  })(i)
+}
+</code></pre>
+<p>代码 2：</p>
+<pre><code class='language-javascript' lang='javascript'>for (var i = 0; i &lt; 10; i++) {
+  try {
+    throw new Error(i);
+  } catch ({
+    message: i
+  }) {
+    setTimeout(() =&gt; {
+      console.log(i);
+    }, 1000)
+  }
+}
+</code></pre>
+</li>
+<li><p>方法四</p>
+<p>原理：</p>
+<ul>
+<li>很多其它的方案只是把 <code>console.log(i)</code> 放到一个函数里面，因为 <code>setTimeout</code> 函数的第一个参数只接受函数以及字符串，如果是 <code>js</code> 语句的话，<code>js</code> 引擎应该会自动在该语句外面包裹一层函数</li>
+
+</ul>
+<p>代码 1：</p>
+<pre><code class='language-javascript' lang='javascript'>for (var i = 0; i &lt; 10; i++) {
+  setTimeout(console.log(i), 1000)
+}
+</code></pre>
+<p>代码 2：</p>
+<pre><code class='language-javascript' lang='javascript'>for (var i = 0; i &lt; 10; i++) {
+  setTimeout((() =&gt; {
+    console.log(i);
+  })(), 1000)
+}
+</code></pre>
+<p>代码 3：</p>
+<pre><code class='language-javascript' lang='javascript'>for (var i = 0; i &lt; 10; i++) {
+  setTimeout((i =&gt; {
+    console.log(i);
+  })(i), 1000)
+}
+</code></pre>
+<p>代码 4：</p>
+<pre><code class='language-javascript' lang='javascript'>for (var i = 0; i &lt; 10; i++) {
+  setTimeout((i =&gt; {
+    console.log(i);
+  }).call(Object.create(null), i), 1000)
+}
+</code></pre>
+<p>代码 5：</p>
+<pre><code class='language-javascript' lang='javascript'>for (var i = 0; i &lt; 10; i++) {
+  setTimeout((i =&gt; {
+    console.log(i);
+  }).apply(Object.create(null), [i]), 1000)
+}
+</code></pre>
+<p>代码 6：</p>
+<pre><code class='language-javascript' lang='javascript'>for (var i = 0; i &lt; 10; i++) {
+  setTimeout((i =&gt; {
+    console.log(i);
+  }).apply(Object.create(null), { length: 1, &#39;0&#39;: i }), 1000)
+}
+</code></pre>
+</li>
+<li><p>方法五</p>
+<p>原理：</p>
+<ul>
+<li>利用 eval 或者 new Function 执行字符串，然后执行过程同方法四</li>
+
+</ul>
+<p>代码 1：</p>
+<pre><code class='language-javascript' lang='javascript'>for (var i = 0; i &lt; 10; i++) {
+  setTimeout(eval(&#39;console.log(i)&#39;), 1000)
+}
+</code></pre>
+<p>代码 2：</p>
+<pre><code class='language-javascript' lang='javascript'>for (var i = 0; i &lt; 10; i++) {
+  setTimeout(new Function(&#39;i&#39;, &#39;console.log(i)&#39;)(i), 1000)
+}
+</code></pre>
+<p>代码 3：</p>
+<pre><code class='language-javascript' lang='javascript'>for (var i = 0; i &lt; 10; i++) {
+  setTimeout(new Function(&#39;console.log(i)&#39;)(), 1000)
+}
+</code></pre>
+</li>
+
+</ul>
+</details>
+
+<details>
+  <summary>实现一个 sleep 函数</summary>
+<pre><code class='language-javascript' lang='javascript'>//Promise
+const sleep = time =&gt; {
+  return new Promise(resolve =&gt; setTimeout(resolve,time))
+}
+sleep(1000).then(()=&gt;{
+  console.log(1)
+})
+</code></pre>
+<pre><code class='language-javascript' lang='javascript'>//Generator
+function* sleepGenerator(time) {
+  yield new Promise(function(resolve,reject){
+    setTimeout(resolve,time);
+  })
+}
+sleepGenerator(1000).next().value.then(()=&gt;{console.log(1)})
+</code></pre>
+<pre><code class='language-javascript' lang='javascript'>//async
+function sleep(time) {
+  return new Promise(resolve =&gt; setTimeout(resolve,time))
+}
+async function output() {
+  let out = await sleep(1000);
+  console.log(1);
+  return out;
+}
+output();
+</code></pre>
+<pre><code class='language-javascript' lang='javascript'>//ES5
+function sleep(callback,time) {
+  if(typeof callback === &#39;function&#39;)
+    setTimeout(callback,time)
+}
+
+function output(){
+  console.log(1);
+}
+sleep(output,1000);
+</code></pre>
+</details>
+
+<details>
+  <summary>forEach 和 for 的性能不同</summary>
+<p>在数据较小时，<code>forEach</code>  的性能较好，数据较多时，<code>for</code> 更好</p>
+</details>
+
+<details>
+    <summary>DOM渲染流程</summary>
+<ul>
+<li><p>根据 HTML 解析出 DOM 树</p>
+</li>
+<li><p>根据 CSS 解析生成 CSS 规则树</p>
+</li>
+<li><p>结合 DOM 树和 CSS 规则树，生成渲染树</p>
+</li>
+<li><p>根据渲染树计算每一个节点的信息</p>
+</li>
+<li><p>根据计算好的信息绘制页面</p>
+<p><img src="https://pic3.zhimg.com/80/v2-d2ea43fca9c994d20b2d83b94358111e_720w.jpg" referrerpolicy="no-referrer" alt="img"></p>
+</li>
+
+</ul>
+<p>&nbsp;</p>
+<p><a href='https://zhuanlan.zhihu.com/p/80551769'>url的处理过程</a></p>
+<p><a href='https://blog.csdn.net/XIAOZHUXMEN/article/details/52014901?utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-11.nonecase&amp;depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-11.nonecase'>浏览器加载，加载，渲染的过程</a></p>
+
+</details>
+</details>
+
+</section>
+</div> 
+      <!-- Footer -->
+
+      <footer id="footer">
+          <!--         <section>
+            <h2>Aliquam sed mauris</h2>
+            <p>
+              Sed lorem ipsum dolor sit amet et nullam consequat feugiat consequat
+              magna adipiscing tempus etiam dolore veroeros. eget dapibus mauris.
+              Cras aliquet, nisl ut viverra sollicitudin, ligula erat egestas
+              velit, vitae tincidunt odio.
+            </p>
+            <ul class="actions">
+              <li><a href="generic.html" class="button">Learn More</a></li>
+            </ul>
+          </section> -->
+          <section>
+            <h2>Contact Info</h2>
+            <dl class="alt">
+              <dt>Wechat</dt>
+              <dd>微信</dd>
+              <dt>Email</dt>
+              <dd><a href="#">wangqianqian997@gmail.com</a></dd>
+            </dl>
+            <ul class="icons">
+              <!--             <li>
+                <a href="#" class="icon fa-twitter alt"
+                  ><span class="label">Twitter</span></a
+                >
+              </li>
+              <li>
+                <a href="#" class="icon fa-facebook alt"
+                  ><span class="label">Facebook</span></a
+                >
+              </li>
+              <li>
+                <a href="#" class="icon fa-instagram alt"
+                  ><span class="label">Instagram</span></a
+                >
+              </li> -->
+              <li>
+                <a href="https://github.com/Wqq1997" class="icon fa-github alt"
+                  ><span class="label">GitHub</span></a
+                >
+              </li>
+              <!--             <li>
+                <a href="#" class="icon fa-dribbble alt"
+                  ><span class="label">Dribbble</span></a
+                >
+              </li> -->
+            </ul>
+          </section>
+          <p class="copyright">
+            &copy; Untitled. Design: <a href="https://html5up.net">HTML5 UP</a>.
+          </p>
+        </footer>
+</div>
+</body>
+</html>

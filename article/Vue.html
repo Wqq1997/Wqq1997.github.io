@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, user-scalable=no"
+    />
+    <link rel="stylesheet" href="../assets/css/main.css" />
+    <noscript
+      ><link rel="stylesheet" href="../assets/css/noscript.css"
+    /></noscript>
+    <title>Vue</title>
+  </head>
+  <body class="is-preload">
+    <div id="wrapper">
+      <header id="header">
+        <h1>二、HTML和CSS</h1>
+        <p>
+          2020-8-27
+        </p>
+      </header>
+      <div id="main">
+        <section class="main">
+          <!-- 更新部分 -->
+          <h4>问题</h4>
+          <details>
+            <summary>computed与method的区别</summary>
+            <p>
+              <a href="https://segmentfault.com/a/1190000014478664"
+                >浅析Vue中computed与method的区别</a
+              >
+            </p>
+            <p>
+              <a href="https://cn.vuejs.org/v2/guide/computed.html#计算属性"
+                >官方解释</a
+              >
+            </p>
+            <ul>
+              <li>
+                使用computed方法，只要原始数据没有改变，就不会再次执行。而methods总是在每次触发渲染时执行该函数
+              </li>
+              <li>
+                另一方面computed方法可以将数据保存至缓存（适用于需要性能开销较大的计算），如果不希望有缓存的话，就用methods
+              </li>
+            </ul>
+            <p>&nbsp;</p>
+            <ul>
+              <li>
+                <p>姐妹问题： computed与watch的区别</p>
+                <p>
+                  <a href="https://cn.vuejs.org/v2/guide/computed.html#计算属性"
+                    >官方解释</a
+                  >
+                </p>
+                <p>侦听某属性，如果发生改变，运行该函数。</p>
+                <p>
+                  watch
+                  选项允许执行异步操作（访问一个API），限制我们执行该操作的频率，并在我们得到最终结果前，设置中间状态，计算属性无法做到。
+                </p>
+              </li>
+            </ul>
+            <p>&nbsp;</p>
+          </details>
+          <details>
+            <summary>什么时候用vm，什么时候用this</summary>
+            <p>
+              <a
+                href="https://stackoverflow.com/questions/47148363/when-to-use-vm-or-this-in-vue-js"
+                >When to Use vm. or this. in Vue.js</a
+              >
+            </p>
+            <blockquote>
+              <p>
+                Where you get into trouble using <code>this</code> is when a new
+                function is declared in the context of the current function, as
+                happens when you write a callback to a promise
+                (<code>axios.post</code>, <code>axios.get</code>).
+              </p>
+            </blockquote>
+            <pre><code class="language-javascript" lang="javascript">AddTicket: function () {
+        // "this", on this line, refers to the Vue
+        // and you can safely use "this" to get any of the
+        // data properties of the Vue
+          axios.post('/api/Tickets', ...)
+            .then(function (response) {
+              // "this" HERE, does NOT refer to the Vue!!
+              // The reason why explained below              
+            })
+      }
+      </code></pre>
+            <blockquote>
+              <p>
+                In the above code, the first comment could be replaced with code that
+                uses <code>this</code> to get data properties or call methods of the
+                Vue (<code>this.tickets</code>). The second comment, however is
+                <em>inside</em> a new function context, and <code>this</code> will NOT
+                refer to the Vue. This is because in Javascript when you declare a new
+                function using the <code>function() {}</code> syntax, that function
+                has its own function context which is <em>different</em> from the
+                function in which it is declared.
+              </p>
+            </blockquote>
+            <p>
+              即，在
+              <code>function() {}</code>
+              内部定义的新函数的函数上下文和外层定义的函数上下文是不同的，所以在第二个函数内部的this是不存在的.
+            </p>
+            <p>那么如何保存这个this？</p>
+            <ol>
+              <li>
+                <p>闭包或者箭头函数（最好使用箭头函数，省一个变量）</p>
+                <pre><code class="language-javascript" lang="javascript">AddTicket: function () {
+        // As before, "this" here is the Vue
+          axios.post('/api/Tickets', ...)
+            .then((response) =&gt; {
+              // "this" HERE is ALSO the Vue
+            })
+      }
+      </code></pre>
+                <blockquote>
+                  <p>
+                    Arrow functions do NOT create their own function context and use
+                    the context in which they are declared. This is also known as
+                    having a lexical scope.
+                  </p>
+                </blockquote>
+                <p>&nbsp;</p>
+                <pre><code class="language-javascript" lang="javascript">AddTicket: function () {
+        const self = this // Here we save a reference to the "this" we want
+          axios.post('/api/Tickets', ...)
+            .then(function(response){
+              // and HERE, even though the context has changed, and we can't use
+              // "this", we can use the reference we declared (self) which *is*
+              // pointing to the Vue
+              self.tickets = response
+            })
+      }
+      </code></pre>
+              </li>
+              <li>
+                <p>bind（不太常用）</p>
+                <pre><code class="language-javascript" lang="javascript">AddTicket: function () {
+          axios.post('/api/Tickets', ...)
+            .then(function(response){
+              this.tickets = response
+            }.bind(this)) // NOTE the ".bind(this)" added to the end of the function here
+      }
+      </code></pre>
+                <p>&nbsp;</p>
+              </li>
+            </ol>
+          </details>
+          <details>
+            <summary>v-if和v-show的区别</summary>
+            <p>
+              <a href="https://cn.vuejs.org/v2/guide/conditional.html">官方解释</a>
+            </p>
+            <ul>
+              <li>v-show 没有v-else，也不支持<code>&lt;template&gt;</code> 元素</li>
+              <li>
+                v-show 的元素只是简单的切换元素的CSS property
+                <code>display</code>，会始终被渲染并保留在DOM中
+              </li>
+              <li>
+                v-if
+                会销毁和重建条件快内的事件和组件，切换开销更高。v-show初始渲染开销更高
+              </li>
+            </ul>
+            <p>使用场景：频繁切换=》v-show，否则=〉v-if</p>
+            <p>&nbsp;</p>
+          </details>
+          <details>
+            <summary>为什么v-for需要key绑定</summary>
+            <p><a href="https://cn.vuejs.org/v2/guide/list.html">官方 维护状态</a></p>
+            <p>
+              <code>v-for</code>
+              的更新默认使用“就地更新”的策略。如果数据项的顺序被改变，Vue 将不会移动
+              DOM
+              元素来匹配数据项的顺序，而是就地更新每个元素，并且确保它们在每个索引位置正确渲染。
+            </p>
+            <p>
+              这个默认的模式是高效的，但是<strong
+                >只适用于不依赖子组件状态或临时 DOM 状态 (例如：表单输入值)
+                的列表渲染输出</strong
+              >。(TODO:需要实例理解)
+            </p>
+            <p>
+              为了Vue能够追踪每一个节点的身份，从而重用和重新排序现有的元素，需要提供唯一
+              <code>key</code> attribute.
+            </p>
+            <p>
+              建议尽可能在使用 <code>v-for</code> 时提供
+              <code>key</code> attribute，除非遍历输出的 DOM
+              内容非常简单，或者是刻意依赖默认行为以获取性能上的提升。
+            </p>
+          </details>
+          <p>&nbsp;</p>
+          <h4>小语法</h4>
+          <p>
+            <a href="https://cn.vuejs.org/v2/guide/class-and-style.html"
+              >v-bind:class</a
+            >
+          </p>
+          <ul>
+            <li>v-bind:class=&quot;{active: isActive}&quot; 绑定class和style</li>
+            <li>多重值(适配浏览器)</li>
+          </ul>
+          <p>
+            <a
+              href="https://cn.vuejs.org/v2/guide/conditional.html#在-lt-template-gt-元素上使用-v-if-条件渲染分组"
+              >v-if 用template 隐藏/显示多个元素</a
+            >
+          </p>
+          <p>
+            <a href="https://cn.vuejs.org/v2/guide/list.html#v-for-与-v-if-一同使用"
+              >v-for与v-if一同使用 (一般/组件)</a
+            >
+          </p>
+          <ul>
+            <li>组件中需要prop绑定以实现v-for，因为组件有自己的作用域</li>
+          </ul>
+          <p>
+            <a href="https://cn.vuejs.org/v2/guide/events.html#监听事件"
+              >v-on:click 监听事件</a
+            >
+          </p>
+          <ul>
+            <li>
+              <a href="https://cn.vuejs.org/v2/guide/events.html#事件修饰符"
+                >v-on:click.stop 事件修饰符</a
+              >
+              （TODO：适用场景）
+            </li>
+            <li>
+              <a href="https://cn.vuejs.org/v2/guide/events.html#按键修饰符"
+                >v-on:keyup 按键 修饰符（适用场景：只有在enter时才执行）</a
+              >（适用场景：只有在enter时才执行）
+            </li>
+          </ul>
+          <p>
+            <a href="https://cn.vuejs.org/v2/guide/forms.html"
+              >v-model 表单输入双向绑定</a
+            >
+          </p>
+          <ul>
+            <li>文本，选项</li>
+            <li>
+              <a href="https://cn.vuejs.org/v2/guide/forms.html#修饰符"
+                >选择框使用修饰符</a
+              >：change时更新数据，转换输入值为数值，过滤首尾空白字符
+            </li>
+          </ul>
+          <p><strong>组件基础</strong></p>
+          <ul>
+            <li>
+              <a
+                href="https://cn.vuejs.org/v2/guide/components.html#在组件上使用-v-model"
+                >在组件上使用v-model</a
+              >
+              （TODO：实例）
+            </li>
+            <li>
+              <a
+                href="https://codesandbox.io/s/github/vuejs/vuejs.org/tree/master/src/v2/examples/vue-20-dynamic-components?file=/index.html"
+                >使用组件切换tab</a
+              >
+            </li>
+          </ul>
+          <p>&nbsp;</p>
+          <hr />
+          <ul>
+            <li>TODO</li>
+          </ul>
+          <p>&nbsp;</p>
+          <p>&nbsp;</p>
+          <p>&nbsp;</p>
+          <!-- 更新结束 -->
+        </section>
+      </div>
+
+      <!-- Footer -->
+      <footer id="footer">
+        <section>
+          <h2>Contact Info</h2>
+          <dl class="alt">
+            <dt>Wechat</dt>
+            <dd>微信</dd>
+            <dt>Email</dt>
+            <dd><a href="#">wangqianqian997@gmail.com</a></dd>
+          </dl>
+          <ul class="icons">
+            <li>
+              <a href="https://github.com/Wqq1997" class="icon fa-github alt"
+                ><span class="label">GitHub</span></a
+              >
+            </li>
+          </ul>
+        </section>
+        <p class="copyright">
+          &copy; Untitled. Design: <a href="https://html5up.net">HTML5 UP</a>.
+        </p>
+      </footer>
+    </div>
+  </body>
+</html>
